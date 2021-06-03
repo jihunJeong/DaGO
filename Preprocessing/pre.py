@@ -8,6 +8,7 @@ import pymysql
 import base64
 import requests
 
+
 #Preprocessing
 data = pd.read_csv('Electronics_sample.csv', encoding ='utf-8')
 review = data.iloc[:,15:24] #review 항목
@@ -37,7 +38,13 @@ cursor = conn.cursor()
 #id asins	brand	categories	colors	dateAdded	dateUpdated	dimension	ean	imageURLs	keys	manufacturer	manufacturerNumber	name	primaryCategories	sourceURLs  upc	weight
 for i in range(items.shape[0]):
     query = "INSERT INTO test_items VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-    cursor.execute(query, (items[i][0], items[i][1], items[i][2], items[i][3], items[i][4], items[i][5], items[i][6], items[i][7], items[i][8], items[i][9], items[i][10], items[i][11], items[i][12], items[i][13], items[i][14], items[i][15], items[i][16]))
+    Img_URL = ""
+    for c in items[i][9]:
+        if c != ",":
+            Img_URL += c
+        else:
+            break
+    cursor.execute(query, (items[i][0], items[i][1], items[i][2], items[i][3], items[i][4], items[i][5], items[i][6], items[i][7], items[i][8], Img_URL, items[i][10], items[i][11], items[i][12], items[i][13], items[i][14], items[i][15], items[i][16]))
     conn.commit()
 
 #cursor.execute(query)
