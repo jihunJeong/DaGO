@@ -25,8 +25,8 @@ SECRET_KEY = 'uzpf3=&z3(bgm9l=s3f&0avx=!-ytgfcg4j%8ku9+_d)aze0#_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+#ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['54.180.154.189']
 
 # Application definition
 
@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'shopping_mall.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
+'''
 DATABASES = {
     'default': {
         #'ENGINE': 'django.db.backends.sqlite3',
@@ -89,6 +89,13 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '3306',
     }
+}
+'''
+DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
 }
 
 
