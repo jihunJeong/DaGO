@@ -26,7 +26,7 @@ SECRET_KEY = 'uzpf3=&z3(bgm9l=s3f&0avx=!-ytgfcg4j%8ku9+_d)aze0#_'
 DEBUG = True
 
 #ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['54.180.154.189']
+ALLOWED_HOSTS = ['localhost','127.0.0.1','54.180.154.189']
 
 # Application definition
 
@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'order',
     'product',
-    'user'
+    'user',
+    'mall',
 ]
 
 MIDDLEWARE = [
