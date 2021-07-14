@@ -30,7 +30,7 @@ urlpatterns = [
     path('logout/', logout),
     path('register/', RegisterView.as_view()),
     path('login/', LoginView.as_view()),
-    path('product/', ProductView.as_view()),
+    #path('product/', ProductView.as_view()),
     #path('product/register/', ProductRegister.as_view()),
     #path('product/<int:pk>/', ProductDetail.as_view()),
     path('order/', OrderList.as_view()),
