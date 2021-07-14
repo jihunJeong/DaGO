@@ -256,6 +256,9 @@ fabric.properties
 # https://plugins.jetbrains.com/plugin/12206-codestream
 .idea/codestream.xml
 
+#Django migrations
+migrations/
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
