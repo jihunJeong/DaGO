@@ -26,7 +26,7 @@ SECRET_KEY = 'uzpf3=&z3(bgm9l=s3f&0avx=!-ytgfcg4j%8ku9+_d)aze0#_'
 DEBUG = True
 
 #ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['localhost','127.0.0.1']
+ALLOWED_HOSTS = ['54.180.154.189','localhost','127.0.0.1']
 
 # Application definition
 
@@ -131,5 +131,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
 
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'

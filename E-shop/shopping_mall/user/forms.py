@@ -5,18 +5,18 @@ class RegisterForm(forms.Form):
     email = forms.EmailField(
         error_messages={
             'required':'이메일을 입력해주세요.'
-        }, label="이메일", max_length=64)
+        }, label="Email", max_length=64)
     
     password = forms.CharField(
         error_messages={
             'required':"비밀번호를 입력해주세요."
-        }, label="비밀번호",
+        }, label="Password",
         widget=forms.PasswordInput
     )
     re_password = forms.CharField(
         error_messages ={
             'required':"비밀번호를 입력해주세요."
-        }, widget = forms.PasswordInput, label="비밀번호 확인"
+        }, widget = forms.PasswordInput, label="Password Check"
     )
     
     def clean(self):
@@ -35,12 +35,12 @@ class LoginForm(forms.Form):
     email = forms.EmailField(
         error_messages={
             'required':'이메일을 입력해주세요.'
-        }, label="이메일", max_length=64)
+        }, label="Email", max_length=64)
     
     password = forms.CharField(
         error_messages={
             'required':"비밀번호를 입력해주세요."
-        }, label="비밀번호",
+        }, label="Password",
         widget=forms.PasswordInput
     )
 
