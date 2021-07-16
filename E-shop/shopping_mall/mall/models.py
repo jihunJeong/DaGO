@@ -28,7 +28,10 @@ class Item(models.Model):
     image_link = models.CharField(db_column='image link', max_length=50)  # Field renamed to remove unsuitable characters.
     brand = models.ForeignKey(Brand, models.DO_NOTHING, blank=True, null=True)
     nickname = models.CharField(max_length=20, blank=True, null=True)
-
+    
     class Meta:
         managed = False
         db_table = 'item'
+
+    def get_absolute_url(self):
+        return f'/product/{self.name}/'

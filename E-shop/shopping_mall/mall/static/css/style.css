@@ -4,8 +4,6 @@ body,
 .view {
   height: 100%; }
 
-
-
 .contact_section {
   position: relative;
 }
@@ -14,10 +12,11 @@ body,
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+
 }
 
 .contact_section form {
-  margin-top: 61px;
+  margin-top: 40px;
 }
 
 .contact_section input {
