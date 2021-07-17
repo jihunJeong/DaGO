@@ -4,7 +4,7 @@ from django.utils.decorators import method_decorator
 from user.decorator import login_required, admin_required
 from .forms import RegisterForm
 from order.forms import OrderForm
-from .models import Product
+from .models import Product, TestItems
 from .Serializers import ProductSerializer
 from rest_framework import generics, mixins
 from django.core.paginator import Paginator
@@ -13,12 +13,13 @@ from django.core.paginator import Paginator
 
 class ProductList(ListView):
     template_name = "product/list.html"
+    model = TestItems
     context_object_name = "products"
 
     def get_queryset(self):
-        product_all = Product.objects.all()
+        product_all = TestItems.objects.all()
         page = int(self.request.GET.get('p',1))
-        paginator = Paginator(product_all, 5)
+        paginator = Paginator(product_all, 9)
         queryset = paginator.get_page(page)
         return queryset
 

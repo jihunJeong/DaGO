@@ -8,6 +8,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', views.MainView.as_view()),
-    path('contact/', views.ContactView.as_view()),
+    path('', views.ProductList.as_view()),
+    path('<str:name>/', views.ProductDetail.as_view()),
 ]
