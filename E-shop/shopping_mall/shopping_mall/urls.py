@@ -22,17 +22,15 @@ from product.views import(
 )
 
 from order.views import OrderCreate,OrderList
-from mall.views import MainView, ProductView
+from mall.views import MainView
 
 urlpatterns = [
-    path('', include('mall.urls')),
     path('admin/', admin.site.urls),
+    path('', include('mall.urls')),
+    path('product/', include('product.urls')),
     path('logout/', logout),
     path('register/', RegisterView.as_view()),
     path('login/', LoginView.as_view()),
-    #path('product/', ProductView.as_view()),
-    #path('product/register/', ProductRegister.as_view()),
-    #path('product/<int:pk>/', ProductDetail.as_view()),
     path('order/', OrderList.as_view()),
     path('order/create/', OrderCreate.as_view()),
 

@@ -259,10 +259,7 @@ fabric.properties
 #Django migrations
 migrations/
 .idea/
-__pycache__/
-migrations
-.idea
-__pycache__
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
