@@ -9,6 +9,7 @@ from .models import Item, TestItems
 class MainView(ListView):
     template_name = "mall/home.html"
     model = TestItems
+    context_object_name = 'items'
     
 class ContactView(TemplateView):
     template_name = 'mall/contact.html'
