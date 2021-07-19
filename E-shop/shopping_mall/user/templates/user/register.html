@@ -9,7 +9,11 @@
 	<link rel="stylesheet" href="{% static 'css/login_style.css' %}" />
 	<title>Login Page</title>
 </head>
-
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        {{error}}
+    </div>
+</div>
 <body>
 	<!-- Main Content -->
 	<div class="container-fluid">
@@ -21,7 +25,7 @@
 			<div class="col-md-8 col-xs-12 col-sm-12 login_form ">
 				<div class="container-fluid">
 					<div class="row">
-						<h2></h2>
+						<h2>Register</h2>
 					</div>
 					<div class="row">
 						<form method="POST" action=".">
@@ -37,6 +41,10 @@
 							{% endfor %}
 							<button type="submit" value="Submit"  class="btn btn-primary">Sign Up</button>
         				</form>
+					</div>
+					<div class="row">
+						<p>Do you have an account? <a href="#" onclick="location.href='/login'">Login Here</a></p>
+						<p>Back to <a href="#" onclick="location.href='/'">Home</a></p>
 					</div>
 				</div>
 			</div>
