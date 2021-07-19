@@ -2,8 +2,12 @@ from django.db import models
 
 # Create your models here.
 class User(models.Model):
+    # email_id = models.AutoField(verbose_name="이메일id")
     email = models.EmailField(verbose_name="이메일")
     password = models.CharField(max_length=128, verbose_name="비밀번호")
+    nickname = models.CharField(max_length=20, verbose_name="닉네임"),
+    contact = models.IntegerField(verbose_name="전화번호"),
+    address = models.CharField(max_length=50, verbose_name="주소"),
     level = models.CharField(max_length=8, verbose_name="등급",
         choices={
             ('admin', 'admin'),

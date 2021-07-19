@@ -27,6 +27,8 @@ class TestItems(models.Model):
     class Meta:
         managed = False
         db_table = 'test_items'
+        verbose_name="테스트상품"
+        verbose_name_plural = "테스트상품"
     
     def get_absolute_url(self):
         return f"/product/{self.name}/"
