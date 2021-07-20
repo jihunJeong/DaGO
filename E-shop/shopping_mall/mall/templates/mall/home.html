@@ -238,7 +238,10 @@
       <!--Section: Products v.3-->
 
       <!--Pagination-->
-      <nav class="d-flex justify-content-center wow fadeIn">
+      <nav class="d-flex justify-content-center wow fadeIn">\
+        {% for item in page_obj %}
+          {{ item.full_name|upper }}
+        {% endfor %}
         <ul class="pagination pg-blue">
 
           <!--Arrow left-->
