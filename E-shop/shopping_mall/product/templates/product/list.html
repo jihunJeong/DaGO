@@ -45,8 +45,8 @@
                 </div>
                 <div class="card-body bg-light text-center">
                     <div class="mb-2">
-                        <h4 class="font-weight-semibold mb-2"> <a href="#" class="text-default mb-2" data-abc="true">{{product.nickname | truncatechars:70}}</a> </h4>
-                        <a href="#" class="text-muted" data-abc="true">{{product.categories | truncatechars:70}}</a>
+                        <h4 class="font-weight-semibold mb-2"> <a href="{{product.get_absolute_url}}" class="text-default mb-2" data-abc="true">{{product.nickname | truncatechars:70}}</a> </h4>
+                        <a href="{{product.get_absolute_url}}" class="text-muted" data-abc="true">{{product.categories | truncatechars:70}}</a>
                     </div>
                     <div><h6 class="mb-0 font-weight-semibold">{{product.brand_name}}</h6></div>
                     <div><h6 class="mb-0 font-weight-semibold">{{product.price}} 원</h6></div>

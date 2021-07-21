@@ -60,12 +60,5 @@ class ProductRegister(FormView):
 
 class ProductDetail(DetailView):
     template_name = "product/detail.html"
-    #queryset = Product.objects.all()
-    model = Product
-    context_object_name = "product"
-
-    def get_context_data(self, **kwargs):
-        #생성된 context는 Template으로 전달됨.
-        context = super().get_context_data(**kwargs)
-        context['form']=OrderForm()
-        return context
+    model = TestItems
+    context_object_name = 'p'

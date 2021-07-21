@@ -197,11 +197,15 @@
             <div class="card h-100">
               <!--Card image-->
               <div class="view overlay">
+              {% if p.image_link %}
                 {% if p.image_link != 'https://static.bhphoto.com/images/itemImgPlaceholder.jpg' %}
                   <img src="{{p.image_link}}" class="card-img-top" alt="">
                 {% else %}
                   <img src="{% static '/img/no_image.png' %}" class="card-img-top" alt="no_image">
                 {% endif %}
+              {% else %}
+                <img src="{% static '/img/no_image.png' %}" class='card-img-top' alt="no_image">
+              {% endif %}
                 <a href="{{p.get_absolute_url}}">
                   <div class="mask rgba-white-slight"></div>
                 </a>
