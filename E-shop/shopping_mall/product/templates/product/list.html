@@ -30,29 +30,34 @@
 	<link rel="stylesheet" href="{% static 'css/list_style.css' %}" />
 	<title>Login Page</title>
 </head>
-
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        {{error}}
+    </div>
+</div>
 <div class="container">
-    <div class="d-flex justify-content-center container mt-5 column3">
-        <div class="card p-3 bg-white"><i class="fa fa-apple"></i>
-            {% for product in products %}
-            <div class="about-product text-center mt-2"><img src={{ product.image_link }} width="300">
-                <div>
-
-                    <h4 class="mt-0 text-black-50">{{product.nickname}}</h4>
-                    <h8 class="mt-0 text-black-50">{{product.name}}</h8>
-                    <h6>
-                        <td scope="row"><a id="product-{{product.id}}" onmouseenter="product_detail({{product.id}});" onmouseleave="product_leave({{product.id}});" href="{{product.id}}">{{product.test_id}}</a></td>
-                    </h6>
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-4 mt-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-img-actions"> <img src={{ product.image_link }} class="card-img img-fluid" width="96" height="350" alt=""> </div>
+                </div>
+                <div class="card-body bg-light text-center">
+                    <div class="mb-2">
+                        <h4 class="font-weight-semibold mb-2"> <a href="#" class="text-default mb-2" data-abc="true">{{product.nickname | truncatechars:70}}</a> </h4>
+                        <a href="#" class="text-muted" data-abc="true">{{product.categories | truncatechars:70}}</a>
+                    </div>
+                    <div><h6 class="mb-0 font-weight-semibold">{{product.brand_name}}</h6></div>
+                    <div><h6 class="mb-0 font-weight-semibold">{{product.price}} 원</h6></div>
+                    <div><h6 class="mb-0 font-weight-semibold">{{product.stock}}</h6></div>
+                    <div> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> </div>
+                    <div class="text-muted mb-3">34 reviews</div>
+<!--                    <button type="button" class="btn bg-cart"><i class="fa fa-cart-plus mr-2"></i> Add to cart</button>-->
                 </div>
             </div>
-            <div class="stats mt-2">
-                <div class="d-flex justify-content-between p-price"><span>Brand : </span><span>{{product.brand_name}}</span></div>
-                <div class="d-flex justify-content-between p-price"><span>Category : </span><span>{{product.categories}}</span></div>
-                <div class="d-flex justify-content-between p-price"><span>Pride : </span><span>{{product.price|intcomma}} 원</span></div>
-                <div class="d-flex justify-content-between p-price"><span>Available : </span><span>{{product.stock}}</span></div>
-            </div>
-            {% endfor %}
         </div>
+        {% endfor %}
     </div>
     <div class="row mt-2">
         <div class="col-12">
