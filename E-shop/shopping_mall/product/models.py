@@ -1,4 +1,5 @@
 from django.db import models
+from django.template.defaultfilters import slugify
 
 # Create your models here.
 class Product(models.Model):
@@ -29,13 +30,12 @@ class TestItems(models.Model):
         db_table = 'test_items'
         verbose_name="테스트상품"
         verbose_name_plural = "테스트상품"
-    
+        
     def get_absolute_url(self):
-        return f"/product/{self.name}/"
+        return f"/product/{self.pk}/"
 
     def __str__(self):
         return f'{self.brand_name} {self.nickname}'
-    
 
 # class Brand(models.Model):
 #     brand_id = models.IntegerField(primary_key=True)
