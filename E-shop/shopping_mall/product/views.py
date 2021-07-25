@@ -8,6 +8,9 @@ from .models import Product, TestItems
 from .Serializers import ProductSerializer
 from rest_framework import generics, mixins
 from django.core.paginator import Paginator
+from django.shortcuts import render
+from .models import TestItems
+from .models import Product
 
 # Create your views here.
 
@@ -26,7 +29,7 @@ class ProductList(ListView):
 class ProductListAPI(generics.ListAPIView, mixins.ListModelMixin):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    
+
     #ListModelMixin을 사용하면 get을 손쉽게 구현 가능.
     #CreateModelMixin을 사용하면 post를 손쉽게 구현 가능.
     #RetrieveModelMixin을 사용하면 상세보기를 손쉽게 구현 가능
@@ -60,12 +63,5 @@ class ProductRegister(FormView):
 
 class ProductDetail(DetailView):
     template_name = "product/detail.html"
-    #queryset = Product.objects.all()
-    model = Product
-    context_object_name = "product"
-
-    def get_context_data(self, **kwargs):
-        #생성된 context는 Template으로 전달됨.
-        context = super().get_context_data(**kwargs)
-        context['form']=OrderForm()
-        return context
+    model = TestItems
+    context_object_name = 'p'

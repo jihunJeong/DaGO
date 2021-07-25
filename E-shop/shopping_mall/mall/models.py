@@ -34,7 +34,7 @@ class Item(models.Model):
         db_table = 'item'
 
     def get_absolute_url(self):
-        return f'/product/{self.name}/'
+        return f'/product/{self.pk}/'
     
     def __str__(self):
         return self.nickname
@@ -52,7 +52,7 @@ class TestItems(models.Model):
         db_table = 'test_items'
     
     def get_absolute_url(self):
-        return f"/product/{self.name}/"
+        return f"/product/{self.pk}/"
 
     def __str__(self):
         return f'{self.brand_name} {self.nickname}'
