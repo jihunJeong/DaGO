@@ -5,5 +5,5 @@ from .models import Product, TestItems
 class productAdmin(admin.ModelAdmin):
     list_display = ('name', 'price')
 
-admin.site.register(Product, productAdmin)
+admin.site.register(Product)
 admin.site.register(TestItems)
