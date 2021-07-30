@@ -59,8 +59,8 @@ class RegisterForm(forms.Form):
             if password != re_password:
                 self.add_error('re_password', '비밀번호가 일치하지 않습니다.')
 
-        # if User.objects.filter(nickname=nickname).exists():
-        #     self.add_error('nickname', '이미 존재하는 닉네임 입니다.')
+        if User.objects.filter(nickname=nickname).exists():
+            self.add_error('nickname', '이미 존재하는 닉네임 입니다.')
 
 
 class LoginForm(forms.Form):
