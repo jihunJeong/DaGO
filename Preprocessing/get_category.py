@@ -3,17 +3,16 @@ import pandas as pd
 if __name__ == "__main__":
     data_path = "../data/"
     
-    filename =["clear_meta_2018_40.csv", "clear_meta_2018_80.csv",
-    "clear_meta_2018_120.csv", "clear_meta_2018_last.csv"]
+    filename =["clear_meta_2018_40.json"]
 
     pre_df = pd.DataFrame()
     for name in filename:
-        review_reader = pd.read_csv(data_path+name, chunksize=1000)
+        meta_data = pd.read_json(data_path+name,lines=True,chunksize=1000)
 
-        for idx, review in enumerate(review_reader):
+        for idx, meta in enumerate(meta_data):
             print(f"{idx} done")
-            select = review[["category"]]
+            select = meta[["category"]]
             pre_df = pd.concat([pre_df, select])
-            pre_df.drop_duplicates(inplace=True)
+            pd.DataFrame(pre_df, columns=pre_df.columns)
     
-    pre_df.to_csv("../data/category_2018.csv")
+    pre_df.to_json("../data/test_category_2018.json", orient="records",lines=True)
