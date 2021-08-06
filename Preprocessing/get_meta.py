@@ -10,6 +10,5 @@ if __name__ == "__main__":
         pre_meta_df = pd.concat([pre_meta_df, meta])
 
         if (idx+1) % 40 == 0:
-            print(pre_meta_df['category'])
             pre_meta_df.to_json(data_path+f"meta_2018_{(idx+1)}.json", orient="records", lines=True)
             break
