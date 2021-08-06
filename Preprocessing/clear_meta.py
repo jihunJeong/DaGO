@@ -1,8 +1,11 @@
 import pandas as pd
 
+
+# meta data count : 154192
+
 if __name__ == "__main__":
     data_path = "../data/"
-    meta_reader = pd.read_json(data_path+"meta_2018_40.json", lines=True, chunksize=1000)
+    meta_reader = pd.read_json(data_path+"meta_2018.json", lines=True, chunksize=1000)
     
     pre_df = pd.DataFrame()
     for idx, meta in enumerate(meta_reader):
