@@ -18,6 +18,8 @@ if __name__ == "__main__":
                 li.append(s.replace("&amp;", "&"))
             select.at[i, 'category'] = li
 
+            select.at[i, 'brand'] = row['brand'].replace("&amp;", "&")
+
         pre_df = pd.concat([pre_df, select])
         if (idx+1)%40 == 0:
             pre_df.to_json(f"../data/clear_meta_2018_{(idx+1)}.json", orient='records', lines=True)
