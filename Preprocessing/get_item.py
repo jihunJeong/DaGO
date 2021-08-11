@@ -5,13 +5,21 @@ import pandas as pd
 
 if __name__ == "__main__":
     data_path = "../data/"
-    meta_reader = pd.read_json(data_path+"meta_2018.json", lines=True, chunksize=1000)
+    filename =["clear_meta_2018_40.json", "clear_meta_2018_80.json",
+            "clear_meta_2018_120.json","clear_meta_2018_last.json"]
+    
     big = pd.read_csv(data_path+"category_big_2018.csv", names=['cb_id', 'category'])
     mid = pd.read_csv(data_path+"category_mid_2018.csv", names=['cm_id', 'category', 'cb_id'])
-    small = pd.read_csv(data_path+"category_sm_2018.csv", names=['cs_id', 'category', 'cb_id', 'cm_id'])
-    
+    small = pd.read_csv(data_path+"category_sm_2018.csv", names=['cs_id', 'category', 'cm_id', 'cb_id'])
+    brand = pd.read_csv(data_path+"brand_2018.csv", names=['bid','brand'])
+
     mToN = {"January":"01", "February":"02", "March":"03", "April":"04", "May":"05", "June":"06",
             "July":"07", "August":"08", "September":"09", "October":"10", "November":"11", "December":"12"}
+    
+    brandd = dict()
+    for idx, row in brand.iterrows():
+        brandd[row['brand']] = row['bid']
+    
     bigd = dict()
     for idx, row in big.iterrows():
         bigd[row['category']] = row['cb_id']
@@ -37,47 +45,48 @@ if __name__ == "__main__":
             smd[row['category']] = row['cs_id']
     
     pre_df = pd.DataFrame()
-    for idx, meta in enumerate(meta_reader):
-        print(f"{idx} done")
-        select = meta.drop(columns=['fit', 'similar_item','tech1','tech2','also_buy','rank','also_view','main_cat','details']).copy()
-        
-        for i, row in select.iterrows():
-            li = []
-            for s in row['category']:
-                li.append(s.replace("&amp;", "&"))
-            if len(li) >= 2:
-                select.at[i, 'cb'] = int(bigd[li[1]])
-                if len(li) >= 3:
-                    select.at[i, 'cm'] = int(midd[li[2]])
-                    if len(li) >= 4:
-                        select.at[i, 'cs'] = int(smd[li[3]])
-                    else :
-                        print(smd['Extra'])
-                        select.at[i, 'cs'] = int(smd['Extra'][int(midd[li[2]])])
-                else :
-                    select.at[i, 'cm'] = int(midd['Extra'][int(bigd[li[1]])])
+    for name in filename:
+        meta_reader = pd.read_json(data_path+name,lines=True,chunksize=1000)
+
+        for idx, meta in enumerate(meta_reader):
+            print(f"{idx} done")
+            select = meta.drop(columns=['also_buy','also_view']).copy()
             
-
-            select.at[i, 'brand'] = row['brand'].replace("&amp;", "&")
-            if row['price']:
-                select.at[i, 'price'] = row['price'].replace("$", "")
-            else :
-                select.at[i, 'price'] = None
-
-            if row['date']:
-                if not isinstance(row['date'], str) or len(row['date'].split()) != 3:
-                    select.at[i, 'date'] = None
-                    continue
-                m, d, year = row['date'].split()
-                if m not in mToN.keys():
-                    select.at[i, 'date'] = None
-                    continue
-                select.at[i, 'date'] = year+"-"+mToN[m]+"-"+"0"*(3-len(d))+d[:-1]
-            else :
-                select.at[i, 'date'] = None
+            for i, row in select.iterrows():
+                li = []
+                for s in row['category']:
+                    li.append(s.replace("&amp;", "&"))
+                if len(li) >= 2:
+                    select.at[i, 'cb'] = int(bigd[li[1]])
+                    if len(li) >= 3 and li[2] in midd.keys():
+                        select.at[i, 'cm'] = int(midd[li[2]])
+                        if len(li) >= 4 and li[3] in smd.keys():
+                            select.at[i, 'cs'] = int(smd[li[3]])
+                        else :
+                            if len(li) >= 4:
+                                continue
+                            select.at[i, 'cs'] = int(smd['Extra'][int(midd[li[2]])])
+                    else :
+                        select.at[i, 'cm'] = int(midd['Extra'][int(bigd[li[1]])])
                 
-        pre_df = pd.concat([pre_df, select])
-        if (idx+1)%40 == 0:
-            pre_df.to_json(f"../data/item_2018_{(idx+1)}.json", orient='records', lines=True)
-            pre_df = pd.DataFrame()
-    pre_df.to_json(f"../data/item_2018_last.json", orient='records', lines=True)
+                if not row['brand'].replace("&amp;", "&"):
+                    select.at[i, 'brand_id'] = None
+                else :
+                    select.at[i, 'brand_id'] = brandd[row['brand'].replace("&amp;", "&")]
+
+                if row['price']:
+                    select.at[i, 'price'] = row['price'].replace("$", "")
+
+                if row['date']:
+                    if not isinstance(row['date'], str) or len(row['date'].split()) != 3:
+                        select.at[i, 'date'] = None
+                        continue
+                    m, d, year = row['date'].split()
+                    if m not in mToN.keys():
+                        select.at[i, 'date'] = None
+                        continue
+                    select.at[i, 'date'] = year+"-"+mToN[m]+"-"+"0"*(3-len(d))+d[:-1]
+
+            select.drop(columns=['category', 'brand'], inplace=True)
+            pre_df = pd.concat([pre_df, select])
+    pre_df.to_csv(f"../data/item_2018.csv")
