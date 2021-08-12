@@ -1,29 +1,30 @@
 {% extends "user/base.html" %}
-{% block contents %}
 {% load static %}
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{% block header %}
 	<meta name="author" content="Graduate">
-	<link rel="stylesheet" href="{% static 'css/login_style.css' %}" />
-	<title>Login Page</title>
-</head>
-<div class="row mt-5">
-    <div class="col-12 text-center">
-        {{error}}
-    </div>
-</div>
-<body>
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+	<!-- Bootstrap core CSS -->
+	<link href="{% static '/css/bootstrap.css' %}" rel="stylesheet">
+	<!-- Material Design Bootstrap -->
+	<link href="{% static '/css/mdb.css' %}" rel="stylesheet">
+	<!-- Your custom styles (optional) -->
+	<link href="{% static '/css/style.css' %}" rel="stylesheet">
+	<link rel="stylesheet" href="{% static '/css/login_style.css' %}">
+	<title>DAGO Mall</title>
+{% endblock %}
+
+{% block contents %}
 	<!-- Main Content -->
-	<div class="container-fluid">
+	<div class="container">
 		<div class="row main-content bg-success text-center">
 			<div class="col-md-4 text-center company__info">
 				<span class="company__logo"><h2><span class="fa fa-android"></span></h2></span>
 				<h4 class="company_title">Your Company Logo</h4>
 			</div>
 			<div class="col-md-8 col-xs-12 col-sm-12 login_form">
-				<div class="container-fluid">
+				<div class="container">
 					<div class="row">
 						<h2>Login</h2>
 					</div>
@@ -40,7 +41,7 @@
 							{% endif %}
 							{% endfor %}
 							<button type="submit" value="Submit"  class="btn btn-primary">Submit</button>
-        				</form>
+						</form>
 					</div>
 					<div class="row">
 						<p>Don't have an account? <a href="#" onclick="location.href='/register'">Register Here</a></p>
@@ -50,6 +51,4 @@
 			</div>
 		</div>
 	</div>
-</body>
 {% endblock %}
-

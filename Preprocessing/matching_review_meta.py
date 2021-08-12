@@ -11,4 +11,4 @@ if __name__ == "__main__":
         select = meta[meta["asin"].apply(lambda x: (review["asin"] == x).any())]
         pre_meta_df = pd.concat([pre_meta_df, select])
 
-    pre_meta_df.to_csv(data_path+"meta_2018.csv", index=False)
+    pre_meta_df.to_json(data_path+"meta_2018.json", orient='records', lines=True)
