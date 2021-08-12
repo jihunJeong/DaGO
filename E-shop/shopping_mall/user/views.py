@@ -25,15 +25,15 @@ class RegisterView(FormView):
     def form_valid(self, form):
         email = form.data.get('email')
         password = form.data.get('password')
-        # nickname = form.data.get('nickname')
-        # contact = form.data.get('contact')
-        # address = form.data.get('address')
+        nickname = form.data.get('nickname')
+        contact = form.data.get('contact')
+        address = form.data.get('address')
         user = User(
             email=email,
             password=make_password(password),
-            # nickname = nickname,
-            # contact = contact,
-            # address = address,
+            nickname = nickname,
+            contact = contact,
+            address = address,
             level='user'
         )
         user.save()

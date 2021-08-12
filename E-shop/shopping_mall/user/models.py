@@ -2,12 +2,11 @@ from django.db import models
 
 # Create your models here.
 class User(models.Model):
-    # email_id = models.AutoField(verbose_name="이메일id")
     email = models.EmailField(verbose_name="이메일")
     password = models.CharField(max_length=128, verbose_name="비밀번호")
-    nickname = models.CharField(max_length=20, verbose_name="닉네임"),
-    contact = models.IntegerField(verbose_name="전화번호"),
-    address = models.CharField(max_length=50, verbose_name="주소"),
+    nickname = models.CharField(max_length=20, verbose_name="닉네임")
+    contact = models.IntegerField(verbose_name="전화번호")
+    address = models.CharField(max_length=50, verbose_name="주소")
     level = models.CharField(max_length=8, verbose_name="등급",
         choices={
             ('admin', 'admin'),
@@ -20,6 +19,35 @@ class User(models.Model):
         db_table = 'users'
         verbose_name = "사용자"
         verbose_name_plural = "사용자"
+
+class Email(models.Model):
+    email_id = models.IntegerField(primary_key=True)
+    email = models.CharField(db_column='email', max_length=20)  # Field renamed to remove unsuitable characters.
+    password = models.CharField(max_length=20)
+    contact = models.IntegerField()
+    enroll_date = models.DateField(db_column='enroll date')  # Field renamed to remove unsuitable characters.
+    address = models.CharField(max_length=50)
+    nickname = models.CharField(max_length=20, blank=True, null=True)
+    rule_id = models.IntegerField()
+    #credit = models.ForeignKey('Credit', models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'email'
+
+
+class Credit(models.Model):
+    credit_id = models.IntegerField(primary_key=True)
+    account = models.CharField(max_length=20)
+    bank = models.CharField(max_length=20)
+    email = models.ForeignKey('Email', models.DO_NOTHING)
+    card = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'credit'
+
+
 #
 # class Brand(models.Model):
 #     brand_id = models.IntegerField(primary_key=True)

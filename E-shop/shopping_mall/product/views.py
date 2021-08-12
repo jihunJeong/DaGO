@@ -8,6 +8,9 @@ from .models import Product, TestItems
 from .Serializers import ProductSerializer
 from rest_framework import generics, mixins
 from django.core.paginator import Paginator
+from django.shortcuts import render
+from .models import TestItems
+from .models import Product
 
 # Create your views here.
 
