@@ -63,9 +63,8 @@ if __name__ == "__main__":
                         if len(li) >= 4 and li[3] in smd.keys():
                             select.at[i, 'cs'] = int(smd[li[3]])
                         else :
-                            if len(li) >= 4:
-                                continue
-                            select.at[i, 'cs'] = int(smd['Extra'][int(midd[li[2]])])
+                            if len(li) < 4:
+                                select.at[i, 'cs'] = int(smd['Extra'][int(midd[li[2]])])
                     else :
                         select.at[i, 'cm'] = int(midd['Extra'][int(bigd[li[1]])])
                 
@@ -78,15 +77,21 @@ if __name__ == "__main__":
                     select.at[i, 'price'] = row['price'].replace("$", "")
 
                 if row['date']:
-                    if not isinstance(row['date'], str) or len(row['date'].split()) != 3:
-                        select.at[i, 'date'] = None
-                        continue
-                    m, d, year = row['date'].split()
-                    if m not in mToN.keys():
-                        select.at[i, 'date'] = None
-                        continue
-                    select.at[i, 'date'] = year+"-"+mToN[m]+"-"+"0"*(3-len(d))+d[:-1]
+                    if not isinstance(row['date'], str) or len(row['date'].split()) != 3 or "div" in str(row['date']):
+                        select.at[i, 'edate'] = "20210101"
+                    else :
+                        m, d, year = row['date'].split()
+                        if m not in mToN.keys():
+                            select.at[i, 'edate'] = "20210101"
+                        else :
+                            select.at[i, 'edate'] = year+mToN[m]+"0"*(3-len(d))+d[:-1]
+                else :
+                    select.at[i, 'edate'] = "20210101"
 
-            select.drop(columns=['category', 'brand'], inplace=True)
+            select.drop(columns=['category', 'brand', 'date'], inplace=True)
             pre_df = pd.concat([pre_df, select])
-    pre_df.to_csv(f"../data/item_2018.csv")
+    pre_df['cb'] = pre_df['cb'].astype('int8')
+    pre_df['cm'] = pre_df['cm'].astype('int8')
+    pre_df['edate'] = pd.to_datetime(pre_df['edate'])
+    pre_df['asin'] = pre_df['asin'].astype(str)
+    pre_df.to_csv("../data/item_2018.csv")
