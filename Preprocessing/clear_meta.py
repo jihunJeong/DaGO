@@ -10,13 +10,15 @@ if __name__ == "__main__":
     pre_df = pd.DataFrame()
     for idx, meta in enumerate(meta_reader):
         print(f"{idx} done")
-        select = meta.drop(columns=['fit', 'similar_item','tech1','tech2']).copy()
+        select = meta.drop(columns=['fit', 'similar_item','tech1','tech2','rank','details','main_cat']).copy()
         
         for i, row in select.iterrows():
             li = []
             for s in row['category']:
                 li.append(s.replace("&amp;", "&"))
             select.at[i, 'category'] = li
+
+            select.at[i, 'brand'] = row['brand'].replace("&amp;", "&")
 
         pre_df = pd.concat([pre_df, select])
         if (idx+1)%40 == 0:

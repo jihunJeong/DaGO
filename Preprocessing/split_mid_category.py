@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 if __name__ == "__main__":
     data_path = "../data/"
@@ -18,5 +19,5 @@ if __name__ == "__main__":
             else :
                 pre_df = pre_df.append(pd.Series([row['category'][2], int(info[row['category'][1]])], index=pre_df.columns), ignore_index=True)
             pre_df.drop_duplicates(inplace=True)
-    pre_df.index += 1
+    pre_df.index = np.arange(1, len(pre_df)+1)
     pre_df.to_csv("../data/category_mid_2018.csv")

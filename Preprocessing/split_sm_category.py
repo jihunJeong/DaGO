@@ -14,15 +14,15 @@ if __name__ == "__main__":
     midd = dict()
     for idx, row in mid.iterrows():
         midd[row['category']] = row['cm_id']
+
     for idx, category in enumerate(categories):
         print(f"{idx} done")
         for idx, row in category.iterrows():
-            if len(row['category']) <= 2:
+            if len(row['category']) <= 2 or row['category'][2] not in midd.keys():
                 continue
             elif len(row['category']) <= 3:
                 pre_df = pre_df.append(pd.Series(['Extra', int(midd[row['category'][2]]), int(info[row['category'][1]])], index=pre_df.columns), ignore_index=True)
             else :
                 pre_df = pre_df.append(pd.Series([row['category'][3], int(midd[row['category'][2]]), int(info[row['category'][1]])], index=pre_df.columns), ignore_index=True)
             pre_df.drop_duplicates(inplace=True)
-    pre_df.index += 1
     pre_df.to_csv("../data/category_sm_2018.csv")
