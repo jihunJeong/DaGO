@@ -56,7 +56,7 @@ form{
 }
 .form__input:focus{
 	border-bottom-color: #929FBA;
-	box-shadow: 0 0 5px rgba(0,80,80,.4);
+	box-shadow: 0 0 5px rgba(146, 159, 186,.4);
 	border-radius: 4px;
 }
 .btn{

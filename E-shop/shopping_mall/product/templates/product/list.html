@@ -47,12 +47,12 @@
                         <div class="view overlay">
                             {% if product.image_link %}
                             {% if product.image_link != 'https://static.bhphoto.com/images/itemImgPlaceholder.jpg' %}
-                            <img src="{{product.image_link}}" class="card-img img-fluid" width="94" height="350" alt="">
+                            <img src="{{product.image_link}}" class="card-img-top" width="94" height="275" alt="">
                             {% else %}
-                            <img src="{% static '/img/no_image.png' %}" class="card-img img-fluid" alt="no_image">
+                            <img src="{% static '/img/no_image.png' %}" class="card-img-top" height="275" alt="no_image">
                             {% endif %}
                             {% else %}
-                            <img src="{% static '/img/no_image.png' %}" class='card-img img-fluid' alt="no_image">
+                            <img src="{% static '/img/no_image.png' %}" class='card-img-top' height="275" alt="no_image">
                             {% endif %}
                             <a href="{{product.get_absolute_url}}">
                                 <div class="mask rgba-white-slight"></div>
@@ -96,11 +96,12 @@
                     {% for i in products.paginator.page_range %}
                     {% if products.number == i %}
                     <li class="page-item">
-                        <a class="page-link" href="#"> {{ i }}
+                        <a class="page-link" href="#">
                             <span class="sr-only">(current)</span>
+                            {{ i }}
                         </a>
                     </li>
-                    {% elif i > products.number|add:'-3' and i < products.number|add:'3' %}
+                    {% elif i > products.number|add:-3 and i < products.number|add:3 %}
                     <li class="page-item">
                         <a class="page-link" href="?p={{ i }}">{{ i }}</a>
                     </li>

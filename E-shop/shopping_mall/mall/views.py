@@ -13,5 +13,6 @@ class MainView(ListView):
     context_object_name = 'items'
     paginate_by = 8
     
-class ContactView(TemplateView):
-    template_name = 'mall/contact.html'
+# class ContactView(TemplateView):
+    # template_name = 'mall/contact.html'
+    # template_name = 'contact/contact.html'
