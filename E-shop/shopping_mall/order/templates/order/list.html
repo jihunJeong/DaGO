@@ -1,6 +1,15 @@
 {% extends "user/base.html" %}
 {% load humanize %}
 {% block contents %}
+{% load static %}
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="author" content="Graduate">
+	<link rel="stylesheet" href="{% static 'css/cart_style.css' %}" />
+	<title>Cart Page</title>
+</head>
 <div class="row mt-5">
     <div class="col-12">
         <table class="table table-light">
@@ -16,7 +25,7 @@
                 {% for order in orders %}
                 <tr>
                     <td scope="row">{{order.id}}</td>
-                    <td scope="row">{{order.product}}</a></td>
+                    <td scope="row">{{order.product.name}}</a></td>
                     <td scope="row">{{order.quantity|intcomma}} 개</td>
                     <td scope="row">{{order.reg_date|date:'Y-m-d H:i'}}</td>
                 </tr>
@@ -39,7 +48,7 @@
                     </li>
                     {% endif %}
                     <li class="page-item">
-                        <a class="page-link" href="#">{{orders.number}}/{{orders.paginator.num_pages}}</a>"
+                        <a class="page-link" href="#">{{orders.number}}/{{orders.paginator.num_pages}}</a>
                     </li>
                     {% if orders.has_next %}
                     <li class="page-item">
@@ -59,5 +68,67 @@
         <button class="btn btn-primary" onclick="location.href='/'">홈으로</button>
     </div>
 </div>
+
+
+
+
+
+
+
+
+<div class="card">
+    <div class="row">
+        <div class="col-md-8 cart">
+            <div class="title">
+                <div class="row">
+                    <div class="col">
+                        <h4><b>Shopping Cart</b></h4>
+                    </div>
+                    <div class="col align-self-center text-right text-muted">{{orders}} Item(s)</div>
+                </div>
+            </div>
+            <div class="row border-top border-bottom">
+                {% for order in orders %}
+                <div class="row main align-items-center">
+                    <div class="col-2"><img class="img-fluid" src="{{order.product.image_link}}"></div>
+                    <div class="col">
+                        <div class="row text-muted">{{order.product.categories | truncatechars:30}}</div>
+                        <div class="row">{{order.product.nickname | truncatechars:30}}</div>
+                    </div>
+                    <div class="col"> <a href="#">-</a><a href="#" class="border">{{order.quantity|intcomma}}</a><a href="#">+</a> </div>
+                    <div class="col">{{order.product.price}} <span class="close right">&#10005;</span></div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="back-to-shop"><a href="#" onclick="location.href='/'">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
+        </div>
+        <div class="col-md-4 summary">
+            <div>
+                <h5><b>Summary</b></h5>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col" style="padding-left:0;">ITEMS 3</div>
+                {% for order in orders %}
+                <div class="col text-right">{{order.total}}</div>
+                {% endfor %}
+            </div>
+            <form>
+                <p>SHIPPING</p> <select>
+                    <option class="text-muted">Standard-Delivery- &euro;5.00</option>
+                </select>
+                <p>GIVE CODE</p> <input id="code" placeholder="Enter your code">
+            </form>
+            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                <div class="col">TOTAL PRICE</div>
+                <div class="col text-right">&euro; 137.00</div>
+            </div> <button class="btn">CHECKOUT</button>
+        </div>
+    </div>
+</div>
+
+
+
+
 
 {% endblock %}

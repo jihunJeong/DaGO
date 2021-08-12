@@ -5,6 +5,7 @@ from django.views.generic import FormView,ListView
 from django.db import transaction
 from .forms import OrderForm
 from product.models import Product
+from product.models import TestItems
 from .models import Order
 from user.models import User
 from django.core.paginator import Paginator
@@ -14,11 +15,11 @@ from django.core.paginator import Paginator
 class OrderCreate(FormView):
     form_class = OrderForm
     success_url = "/product/"
-    
-    
+
     def form_valid(self,form):
         with transaction.atomic():
-            product = Product.objects.get(pk=form.data.get("product"))
+            #product = Product.objects.get(pk=form.data.get("product"))
+            product = TestItems.objects.get(pk=form.data.get("product"))
             user = User.objects.get(email=self.request.session.get('user'))
             order = Order(
                 user=user,
@@ -51,3 +52,50 @@ class OrderList(ListView):
         paginator = Paginator(queryset, 5)
         queryset = paginator.get_page(page)
         return queryset
+
+# def order_detail(request, total = 0, counter = 0, order_items = None):
+#     try:
+#         order = Order.objects.get(order_id = OrderCreate(request))
+#         order_items = OrderList.object.filter(order=order, active=True)
+#         for order_item in order_items:
+#             total += (order_item.product.price * order.quantity)
+#             counter += order.quantity
+#     except ObjectDoesNotExist:
+#         pass
+#
+#     return render(request, 'order.html', dict(cart_items))
+
+# def add_cart(request, product_pk):
+#     product = Product.objects.get(pk=test_id)
+#
+#     try:
+#         cart = CartItem.objects.get(product__id=product.pk, user__id=request.user.pk)
+#         if cart:
+#             if cart.product.name == product.name:
+#                 cart.quantity += 1
+#                 cart.save()
+#     except CartItem.DoesNotExist:
+#         user = User.objects.get(pk=request.user.pk)
+#         cart = CartItem(
+#             user=user,
+#             product=product,
+#             # 장바구니에 해당 상품이 없을 경우 int 1을 선언
+#             quantity=1,
+#         )
+#         cart.save()
+#     return redirect('product:my-cart')
+#
+# def minus_cart_item(request, product_pk):
+#     cart_item = CartItem.objects.filter(product__id=product_pk)
+#     product = Product.objects.get(pk=product_pk)
+#     try:
+#         for item in cart_item:
+#             if item.product.name == product.name:
+#                 if item.quantity > 1:
+#                     item.quantity -= 1
+#                     item.save()
+#                 return redirect('product:my-cart')
+#             else:
+#                 return redirect('product:my-cart')
+#     except CartItem.DoesNotExist:
+#         raise Http404

@@ -6,7 +6,7 @@ body {
     line-height: 1.5385;
     color: #333;
     text-align: left;
-    background-color: #929FBA
+    background-color: #fff;
 }
 
 .mt-50 {
@@ -54,7 +54,7 @@ body {
 .card-img {
     width: 250px;
     height: 250px;
-    object-fit: scale-down;
+    object-fit: contain;
 }
 
 .star {

@@ -36,7 +36,7 @@
         <li class="nav-item">
           <a class="nav-link waves-effect">
             <i class="fas fa-shopping-cart"></i>
-            <span class="clearfix d-none d-sm-inline-block"> Cart
+            <span class="clearfix d-none d-sm-inline-block" onclick="location.href='/order/'"> Cart
               <span class="badge red z-depth-1"> 1 </span>
             </span>
           </a>
@@ -48,9 +48,15 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="/login/" class="nav-link waves-effect" target="_self"> 
+          {% if request.session.user %}
+          <a href="/logout/" class="nav-link waves-effect" target="_self">
+          <i class="fas fa-sign-in-alt"></i>
+          <span class="clearfix d-none d-sm-inline-block">SIGN OUT</span>
+          {% else %}
+          <a href="/login/" class="nav-link waves-effect" target="_self">
           <i class="fas fa-sign-in-alt"></i>
           <span class="clearfix d-none d-sm-inline-block">SIGN IN</span>
+          {% endif %}
           </a>
         </li>
       </ul>

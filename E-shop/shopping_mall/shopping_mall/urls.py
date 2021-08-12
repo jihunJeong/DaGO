@@ -24,6 +24,8 @@ from product.views import(
 from order.views import OrderCreate,OrderList
 from mall.views import MainView
 
+from contact import views as contact_views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('mall.urls')),
@@ -35,6 +37,9 @@ urlpatterns = [
     path('order/create/', OrderCreate.as_view()),
 
     path('api/product', ProductListAPI.as_view()),
-    path('api/product/<int:pk>', ProductDetailAPI.as_view())
+    path('api/product/<int:pk>', ProductDetailAPI.as_view()),
+
+    path('contact/', contact_views.contact_view, name='contact'),
+
 ]
     
