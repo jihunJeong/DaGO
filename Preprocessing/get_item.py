@@ -1,3 +1,4 @@
+from numpy import isin
 import pandas as pd
 
 
@@ -74,7 +75,10 @@ if __name__ == "__main__":
                     select.at[i, 'brand_id'] = brandd[row['brand'].replace("&amp;", "&")]
 
                 if row['price']:
-                    select.at[i, 'price'] = row['price'].replace("$", "")
+                    if not row['price'].replace(".", "1").replace("$", "").isdigit():
+                        select.at[i, 'price'] = None
+                    else :
+                        select.at[i, 'price'] = row['price'].replace("$", "")
 
                 if row['date']:
                     if not isinstance(row['date'], str) or len(row['date'].split()) != 3 or "div" in str(row['date']):
@@ -90,6 +94,7 @@ if __name__ == "__main__":
 
             select.drop(columns=['category', 'brand', 'date'], inplace=True)
             pre_df = pd.concat([pre_df, select])
+    pre_df = pre_df.drop_duplicates(subset=['asin'])
     pre_df['cb'] = pre_df['cb'].astype('int8')
     pre_df['cm'] = pre_df['cm'].astype('int8')
     pre_df['edate'] = pd.to_datetime(pre_df['edate'])
