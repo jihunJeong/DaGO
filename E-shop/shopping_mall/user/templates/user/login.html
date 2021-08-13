@@ -11,13 +11,13 @@
 	<link href="{% static '/css/mdb.css' %}" rel="stylesheet">
 	<!-- Your custom styles (optional) -->
 	<link href="{% static '/css/style.css' %}" rel="stylesheet">
-	<link rel="stylesheet" href="{% static '/css/login_style.css' %}">
+	<link href="{% static '/css/login_style.css' %}" rel="stylesheet" >
 	<title>DAGO Mall</title>
 {% endblock %}
 
 {% block contents %}
 	<!-- Main Content -->
-	<div class="container">
+	<div class="container mt-4 pt-4 pb-4">
 		<div class="row main-content bg-success text-center">
 			<div class="col-md-4 text-center company__info">
 				<span class="company__logo"><h2><span class="fa fa-android"></span></h2></span>
@@ -40,7 +40,7 @@
 							<span style="color:red">{{field.errors}}</span>
 							{% endif %}
 							{% endfor %}
-							<button type="submit" value="Submit"  class="btn btn-primary">Submit</button>
+							<button type="submit" value="Submit"  class="btn">Submit</button>
 						</form>
 					</div>
 					<div class="row">
