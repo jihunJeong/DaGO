@@ -1,20 +1,29 @@
 {% extends "user/base.html" %}
-{% block contents %}
 {% load static %}
-<html lang="en">
-<head>
+{% block header %}
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="author" content="Graduate">
-	<link rel="stylesheet" href="{% static 'css/login_style.css' %}" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+	<!-- Bootstrap core CSS -->
+	<link href="{% static '/css/bootstrap.css' %}" rel="stylesheet">
+	<!-- Material Design Bootstrap -->
+	<link href="{% static '/css/mdb.css' %}" rel="stylesheet">
+	<!-- Your custom styles (optional) -->
+	<link href="{% static '/css/style.css' %}" rel="stylesheet">
+	<link href="{% static '/css/login_style.css' %}" rel="stylesheet" >
 	<title>Register Page</title>
-</head>
+{% endblock %}
+
+{% block error %}
 <div class="row mt-5">
     <div class="col-12 text-center">
         {{error}}
     </div>
 </div>
-<body>
+{% endblock %}
+
+{% block contents %}
 	<!-- Main Content -->
 	<div class="container-fluid">
 		<div class="row main-content text-center">
@@ -39,7 +48,7 @@
 							<span style="color:red">{{field.errors}}</span>
 							{% endif %}
 							{% endfor %}
-							<button type="submit" value="Submit"  class="btn btn-primary">Sign Up</button>
+							<button type="submit" value="Submit"  class="btn">Sign Up</button>
         				</form>
 					</div>
 					<div class="row">
@@ -50,5 +59,4 @@
 			</div>
 		</div>
 	</div>
-</body>
 {% endblock %}
