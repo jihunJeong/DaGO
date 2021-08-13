@@ -1,5 +1,6 @@
 <!doctype html>
-<html>
+
+<html lang="en">
 
 <head>
     <!-- Required meta tags -->
@@ -20,12 +21,18 @@
     {% block header %}
     {% endblock %}
 </head>
-
+{% block error %}
+{% endblock %}
 <body>
-    <div class="container">
-        {% block contents %}
-        {% endblock %}
-    </div>
+    <!-- Navbar -->
+    {% include  'mall/navbar.html' %}
+        
+    {% block contents %}
+    {% endblock %}
+
+    <!-- footer -->
+    {% include 'mall/footer.html' %}
+    <!--/.Footer-->
 </body>
 
 </html>

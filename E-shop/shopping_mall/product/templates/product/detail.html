@@ -1,4 +1,4 @@
-{% extends 'mall/base.html' %}
+{% extends 'product/base.html' %}
 {% load static %}
 {% block main_area %}
   <!--Main layout-->
@@ -30,7 +30,7 @@
 
             <div class="mb-3">
               <a href="">
-                <span class="badge purple mr-1">{{p.categories}}</span>
+                <span class="badge purple mr-1">{{p.categories | truncatechars:45}}</span>
               </a>
               <a href="">
                 <span class="badge blue mr-1">New</span>
@@ -47,8 +47,8 @@
               <span>$100</span>
             </p>
 
-            <p class="lead font-weight-bold">Description</p>
-
+            <p class="lead font-weight-bold">{{p.nickname}}</p>
+            <p>{{p.brand_name}}</p>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et dolor suscipit libero eos atque quia ipsa
               sint voluptatibus!
               Beatae sit assumenda asperiores iure at maxime atque repellendus maiores quia sapiente.</p>

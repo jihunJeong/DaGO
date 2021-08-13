@@ -1,42 +1,26 @@
 {% extends "product/base.html" %}
-{% load humanize %}
-{% block header %}
-<script>
-    function product_detail(id){
-        $.ajax({
-            url: "/api/product/" + id,
-            success: function (result) {
-                $("#product-"+id).popover({
-                    html:true,
-                    content: result.name + "<br>" + result.price + "원"
-                }).popover('show');
-            }
-        });
-    }
-
-    function product_leave(id){
-        $("#product-"+id).popover('hide');
-    }
-</script>
-{% endblock %}
-{% block main_area %}
-
 {% load static %}
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+{% block header %}
 	<meta name="author" content="Graduate">
-	<link rel="stylesheet" href="{% static 'css/list_style.css' %}" />
-	<title>Login Page</title>
-</head>
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+	<!-- Bootstrap core CSS -->
+	<link href="{% static '/css/bootstrap.css' %}" rel="stylesheet">
+	<!-- Material Design Bootstrap -->
+	<link href="{% static '/css/mdb.css' %}" rel="stylesheet">
+	<!-- Your custom styles (optional) -->
+	<link href="{% static '/css/style.css' %}" rel="stylesheet">
+	<link href="{% static '/css/list_style.css' %}" rel="stylesheet" >
+	<title>DAGO Mall</title>
+{% endblock %}
+{% block contents %}
 <div class="row mt-5">
     <div class="col-12 text-center">
         {{error}}
     </div>
 </div>
 <div class="container">
-    <div class="row">
+    <div class="row main-body">
         {% for product in products %}
         <div class="col-md-4 mt-2">
             <div class="card">
@@ -77,7 +61,7 @@
         </div>
         {% endfor %}
     </div>
-    <div class="row mt-2">
+    <div class="row mt-2 main-body">
         <div class="col-12">
             <nav>
                 <ul class="pagination justify-content-center">
@@ -122,7 +106,6 @@
     </div>
 </div>
 {% endblock %}
-
 
 
 

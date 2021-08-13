@@ -1,4 +1,4 @@
-body {
+.main-body {
     background: #ddd;
     min-height: 100vh;
     vertical-align: middle;
@@ -43,7 +43,7 @@ body {
 }
 
 .summary {
-    background-color: #ddd;
+    background-color: #929FBA;
     border-top-right-radius: 1rem;
     border-bottom-right-radius: 1rem;
     padding: 4vh;
@@ -109,7 +109,7 @@ hr {
     margin-top: 1.25rem
 }
 
-form {
+.main-body form {
     padding: 2vh 0
 }
 
@@ -135,7 +135,7 @@ input:focus::-webkit-input-placeholder {
     color: transparent
 }
 
-.btn {
+.main-body .btn {
     background-color: #000;
     border-color: #000;
     color: white;
