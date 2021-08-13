@@ -20,7 +20,7 @@ if __name__ == "__main__":
     brandd = dict()
     for idx, row in brand.iterrows():
         brandd[row['brand']] = row['bid']
-    
+
     bigd = dict()
     for idx, row in big.iterrows():
         bigd[row['category']] = row['cb_id']
@@ -72,7 +72,10 @@ if __name__ == "__main__":
                 if not row['brand'].replace("&amp;", "&"):
                     select.at[i, 'brand_id'] = None
                 else :
-                    select.at[i, 'brand_id'] = brandd[row['brand'].replace("&amp;", "&")]
+                    if "by" in str(row['brand']):
+                        select.at[i, 'brand_id'] = None
+                    else :
+                        select.at[i, 'brand_id'] = brandd[row['brand'].replace("&amp;", "&")]
 
                 if row['price']:
                     if not row['price'].replace(".", "1").replace("$", "").isdigit():
@@ -99,4 +102,10 @@ if __name__ == "__main__":
     pre_df['cm'] = pre_df['cm'].astype('int8')
     pre_df['edate'] = pd.to_datetime(pre_df['edate'])
     pre_df['asin'] = pre_df['asin'].astype(str)
+    # Delete Trash Value
+    pre_df = pre_df[pre_df['asin'] != "B01BB1PJGG"]
+    pre_df = pre_df[pre_df['asin'] != "B01AK9UDG6"]
+    pre_df = pre_df[pre_df['asin'] != "B01DIL84BY"]
+    pre_df = pre_df[pre_df['asin'] != "B01DKAHXNI"]
+    pre_df = pre_df[pre_df['asin'] != "BO1DNTWIA4"]
     pre_df.to_csv("../data/item_2018.csv")
