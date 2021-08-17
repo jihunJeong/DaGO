@@ -9,7 +9,8 @@ from .models import Item, CategoryBig
 
 class MainView(ListView):
     template_name = "mall/home.html"
-    model = Item.objects.order_by('-enroll_date')[:64].get()
+    model = Item
+    ordering = '-enroll_date'
     context_object_name = 'items'
     paginate_by = 8
 

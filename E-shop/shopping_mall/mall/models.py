@@ -62,9 +62,20 @@ class Item(models.Model):
 
     def get_absolute_url(self):
         return f'/product/{self.pk}/'
+
+    def get_image_link(self):
+        imagelink = None
+        if self.imagehighres:
+            imagelink = self.imagehighres[1:-1].split(',')[0]
+            imagelink = imagelink[1:-1]
+            print(imagelink)     
+        return imagelink
     
     def __str__(self):
         return self.title
+
+    def get_category(self):
+        return self.cb.name
 
 
 class TestItems(models.Model):
