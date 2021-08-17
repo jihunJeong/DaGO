@@ -10,7 +10,7 @@ if __name__ == "__main__":
     info = dict()
     for idx, row in big.iterrows():
         info[row['category']] = row['cb_id']
-
+    print(info)
     for idx, category in enumerate(categories):
         print(f"{idx} done")
         for idx, row in category.iterrows():

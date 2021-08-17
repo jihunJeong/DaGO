@@ -2,7 +2,7 @@ from numpy import isin
 import pandas as pd
 
 
-# meta data count : 154192
+# meta data count : 126143
 
 if __name__ == "__main__":
     data_path = "../data/"
@@ -14,9 +14,6 @@ if __name__ == "__main__":
     small = pd.read_csv(data_path+"category_sm_2018.csv", names=['cs_id', 'category', 'cm_id', 'cb_id'])
     brand = pd.read_csv(data_path+"brand_2018.csv", names=['bid','brand'])
 
-    mToN = {"January":"01", "February":"02", "March":"03", "April":"04", "May":"05", "June":"06",
-            "July":"07", "August":"08", "September":"09", "October":"10", "November":"11", "December":"12"}
-    
     brandd = dict()
     for idx, row in brand.iterrows():
         brandd[row['brand']] = row['bid']
@@ -69,33 +66,8 @@ if __name__ == "__main__":
                     else :
                         select.at[i, 'cm'] = int(midd['Extra'][int(bigd[li[1]])])
                 
-                if not row['brand'].replace("&amp;", "&"):
-                    select.at[i, 'brand_id'] = None
-                else :
-                    if "by" in str(row['brand']):
-                        select.at[i, 'brand_id'] = None
-                    else :
-                        select.at[i, 'brand_id'] = brandd[row['brand'].replace("&amp;", "&")]
-
-                if row['price']:
-                    if not row['price'].replace(".", "1").replace("$", "").isdigit():
-                        select.at[i, 'price'] = None
-                    else :
-                        select.at[i, 'price'] = row['price'].replace("$", "")
-
-                if row['date']:
-                    if not isinstance(row['date'], str) or len(row['date'].split()) != 3 or "div" in str(row['date']):
-                        select.at[i, 'edate'] = "20210101"
-                    else :
-                        m, d, year = row['date'].split()
-                        if m not in mToN.keys():
-                            select.at[i, 'edate'] = "20210101"
-                        else :
-                            select.at[i, 'edate'] = year+mToN[m]+"0"*(3-len(d))+d[:-1]
-                else :
-                    select.at[i, 'edate'] = "20210101"
-
-            select.drop(columns=['category', 'brand', 'date'], inplace=True)
+                select.at[i, 'brand_id'] = brandd[row['brand'].replace("&amp;", "&")]
+            select.drop(columns=['category', 'brand'], inplace=True)
             pre_df = pd.concat([pre_df, select])
     pre_df = pre_df.drop_duplicates(subset=['asin'])
     pre_df['cb'] = pre_df['cb'].astype('int8')
@@ -108,4 +80,6 @@ if __name__ == "__main__":
     pre_df = pre_df[pre_df['asin'] != "B01DIL84BY"]
     pre_df = pre_df[pre_df['asin'] != "B01DKAHXNI"]
     pre_df = pre_df[pre_df['asin'] != "BO1DNTWIA4"]
+    
+    print(len(pre_df))
     pre_df.to_csv("../data/item_2018.csv")
