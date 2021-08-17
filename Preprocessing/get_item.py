@@ -72,7 +72,7 @@ if __name__ == "__main__":
     pre_df = pre_df.drop_duplicates(subset=['asin'])
     pre_df['cb'] = pre_df['cb'].astype('int8')
     pre_df['cm'] = pre_df['cm'].astype('int8')
-    pre_df['edate'] = pd.to_datetime(pre_df['edate'])
+    pre_df['edate'] = pd.to_datetime(pre_df['edate'].astype(str), format='%Y%m%d')
     pre_df['asin'] = pre_df['asin'].astype(str)
     # Delete Trash Value
     pre_df = pre_df[pre_df['asin'] != "B01BB1PJGG"]

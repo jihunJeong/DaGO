@@ -44,15 +44,15 @@ if __name__ == "__main__":
 
             if row['date']:
                 if not isinstance(row['date'], str) or len(row['date'].split()) != 3 or "div" in str(row['date']):
-                    select.at[i, 'edate'] = "20210101"
+                    select.at[i, 'edate'] = "20010101"
                 else :
                     m, d, year = row['date'].split()
                     if m not in mToN.keys():
-                        select.at[i, 'edate'] = "20210101"
+                        select.at[i, 'edate'] = "20010101"
                     else :
                         select.at[i, 'edate'] = year+mToN[m]+"0"*(3-len(d))+d[:-1]
             else :
-                select.at[i, 'edate'] = "20210101"
+                select.at[i, 'edate'] = "20010101"
         select.drop(columns=['date'], inplace=True)    
         pre_df = pd.concat([pre_df, select])
         if (idx+1)%40 == 0:
