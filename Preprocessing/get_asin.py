@@ -2,7 +2,7 @@ import pandas as pd
 
 if __name__ == "__main__":
     data_path = "../data/"
-    review_reader = pd.read_csv(data_path+"review_2018.csv", chunksize=1000)
+    review_reader = pd.read_csv(data_path+"item_2018.csv", chunksize=1000)
 
     pre_df = pd.DataFrame()
     for idx, review in enumerate(review_reader):

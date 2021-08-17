@@ -13,7 +13,4 @@ if __name__ == "__main__":
                          "reviewerID", "asin","reviewText"]]
         pre_df = pd.concat([pre_df, select])
         pre_df.drop_duplicates(inplace=True)
-        if (idx+1)%100 == 0:
-            pre_df.to_json(f"../data/clear_review_2018_{(idx+1)}.json", orient='records', lines=True)
-            pre_df = pd.DataFrame()
-    pre_df.to_json(f"../data/clear_review_2018_last.json", orient='records', lines=True)
+    pre_df.to_csv(f"../data/clear_review_2018.csv")
