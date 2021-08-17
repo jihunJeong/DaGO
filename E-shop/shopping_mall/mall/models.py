@@ -34,8 +34,7 @@ class CategorySm(models.Model):
 
 class Brand(models.Model):
     brand_id = models.IntegerField(primary_key=True)
-    brand_name = models.CharField(db_column='brand name', max_length=20)  # Field renamed to remove unsuitable characters.
-    nation = models.CharField(max_length=20)
+    name = models.CharField(max_length=500)
 
     class Meta:
         managed = False
@@ -61,6 +60,7 @@ class Item(models.Model):
 
 
     def get_absolute_url(self):
+        print(self.pk)
         return f'/product/{self.pk}/'
 
     def get_image_link(self):
@@ -76,22 +76,3 @@ class Item(models.Model):
 
     def get_category(self):
         return self.cb.name
-
-
-class TestItems(models.Model):
-    name = models.CharField(max_length=100, blank=True, null=True)
-    test_id = models.AutoField(primary_key=True)
-    brand_name = models.CharField(max_length=100, blank=True, null=True)
-    categories = models.CharField(max_length=1000, blank=True, null=True)
-    image_link = models.CharField(db_column='image link', max_length=2500, blank=True, null=True)  # Field renamed to remove unsuitable characters.
-    nickname = models.CharField(max_length=1000, blank=True, null=True)
-
-    class Meta:
-        db_table = 'test_items'
-    
-    def get_absolute_url(self):
-        return f"/product/{self.pk}/"
-
-    def __str__(self):
-        return f'{self.brand_name} {self.nickname}'
-    
