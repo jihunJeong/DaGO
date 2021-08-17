@@ -9,11 +9,11 @@ from .models import Item, CategoryBig
 
 class MainView(ListView):
     template_name = "mall/home.html"
-    model = Item
-    ordering = '-enroll_date'
     context_object_name = 'items'
     paginate_by = 8
 
+    def get_queryset(self):
+        return Item.objects.order_by('-enroll_date')[:64]
 # class ContactView(TemplateView):
     # template_name = 'mall/contact.html'
     # template_name = 'contact/contact.html'
