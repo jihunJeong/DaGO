@@ -9,5 +9,6 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.MainView.as_view()),
+    path('category/<str:cats>/', views.CategoryView, name='category')
     #path('contact/', views.ContactView.as_view()),
 ]

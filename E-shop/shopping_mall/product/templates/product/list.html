@@ -1,19 +1,35 @@
 {% extends "product/base.html" %}
-{% load static %}
+{% load humanize %}
 {% block header %}
-	<meta name="author" content="Graduate">
-	<!-- Font Awesome -->
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
-	<!-- Bootstrap core CSS -->
-	<link href="{% static '/css/bootstrap.css' %}" rel="stylesheet">
-	<!-- Material Design Bootstrap -->
-	<link href="{% static '/css/mdb.css' %}" rel="stylesheet">
-	<!-- Your custom styles (optional) -->
-	<link href="{% static '/css/style.css' %}" rel="stylesheet">
-	<link href="{% static '/css/list_style.css' %}" rel="stylesheet" >
-	<title>DAGO Mall</title>
+<script>
+    function product_detail(id){
+        $.ajax({
+            url: "/api/product/" + id,
+            success: function (result) {
+                $("#product-"+id).popover({
+                    html:true,
+                    content: result.name + "<br>" + result.price + "원"
+                }).popover('show');
+            }
+        });
+    }
+
+    function product_leave(id){
+        $("#product-"+id).popover('hide');
+    }
+</script>
 {% endblock %}
-{% block contents %}
+{% block main_area %}
+
+{% load static %}
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="author" content="Graduate">
+	<link rel="stylesheet" href="{% static 'css/list_style.css' %}" />
+	<title>Login Page</title>
+</head>
 <div class="row mt-5">
     <div class="col-12 text-center">
         {{error}}
@@ -29,9 +45,9 @@
 <!--                        <img src={{ product.image_link }} class="card-img img-fluid" width="96" height="350" alt="">-->
                         <!--Card image-->
                         <div class="view overlay">
-                            {% if product.image_link %}
-                            {% if product.image_link != 'https://static.bhphoto.com/images/itemImgPlaceholder.jpg' %}
-                            <img src="{{product.image_link}}" class="card-img-top" width="94" height="275" alt="">
+                            {% if product.get_image_link %}
+                            {% if product.get_image_link != 'https://static.bhphoto.com/images/itemImgPlaceholder.jpg' %}
+                            <img src="{{product.get_image_link}}" class="card-img-top" width="94" height="275" alt="">
                             {% else %}
                             <img src="{% static '/img/no_image.png' %}" class="card-img-top" height="275" alt="no_image">
                             {% endif %}
@@ -47,12 +63,11 @@
                 </div>
                 <div class="card-body bg-light text-center">
                     <div class="mb-2">
-                        <h4 class="font-weight-semibold mb-2"> <a href="{{product.get_absolute_url}}" class="text-default mb-2" data-abc="true">{{product.nickname | truncatechars:70}}</a> </h4>
-                        <a href="{{product.get_absolute_url}}" class="text-muted" data-abc="true">{{product.categories | truncatechars:70}}</a>
+                        <h4 class="font-weight-semibold mb-2"> <a href="{{product.get_absolute_url}}" class="text-default mb-2" data-abc="true">{{product.title | truncatechars:70}}</a> </h4>
+                        <a href="{{product.get_absolute_url}}" class="text-muted" data-abc="true">{{product.get_category | truncatechars:70}}</a>
                     </div>
-                    <div><h6 class="mb-0 font-weight-semibold">{{product.brand_name}}</h6></div>
-                    <div><h6 class="mb-0 font-weight-semibold">{{product.price}} 원</h6></div>
-                    <div><h6 class="mb-0 font-weight-semibold">{{product.stock}}</h6></div>
+                    <div><h6 class="mb-0 font-weight-semibold">{{product.get_brand}}</h6></div>
+                    <div><h6 class="mb-0 font-weight-semibold">${{product.price}}</h6></div>
                     <div> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> </div>
                     <div class="text-muted mb-3">34 reviews</div>
 <!--                    <button type="button" class="btn bg-cart"><i class="fa fa-cart-plus mr-2"></i> Add to cart</button>-->
@@ -61,7 +76,7 @@
         </div>
         {% endfor %}
     </div>
-    <div class="row mt-2 main-body">
+    <div class="row mt-2">
         <div class="col-12">
             <nav>
                 <ul class="pagination justify-content-center">
@@ -106,6 +121,7 @@
     </div>
 </div>
 {% endblock %}
+
 
 
 

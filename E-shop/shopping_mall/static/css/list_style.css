@@ -17,7 +17,7 @@
     margin-bottom: 50px
 }
 
-.main-body .card {
+.card {
     position: relative;
     display: -ms-flexbox;
     display: flex;
@@ -31,11 +31,11 @@
     border-radius: .1875rem;
 }
 
-.main-body .card-img-actions {
+.card-img-actions {
     position: relative
 }
 
-.main-body .card-body {
+.card-body {
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     padding: 1.25rem;
@@ -51,7 +51,7 @@
 }
 
 
-.main-body .card-img {
+.card-img {
     width: 250px;
     height: 250px;
     object-fit: contain;
@@ -61,22 +61,22 @@
     color: red
 }
 
-.main-body .bg-cart {
+.bg-cart {
     background-color: orange;
     color: #fff
 }
 
-.main-body .bg-cart:hover {
+.bg-cart:hover {
     color: #fff
 }
 
-.main-body .bg-buy {
+.bg-buy {
     background-color: green;
     color: #fff;
     padding-right: 29px
 }
 
-.main-body .bg-buy:hover {
+.bg-buy:hover {
     color: #fff
 }
 

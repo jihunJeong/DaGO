@@ -33,7 +33,7 @@
               </p>
 
               <p class="mb-4 d-none d-md-block">
-                <strong>1000개의 Category와 400,000개의 Item이 기다립니다.</strong>
+                <strong>126,000개의 Item이 기다립니다.</strong>
               </p>
 
               <a target="_self" href="/product/" class="btn btn-outline-white btn-lg"> See All Product
@@ -139,7 +139,7 @@
     <div class="container">
 
       <!--Navbar-->
-      <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-3 mb-5">
+      <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-3 mb-4" id="categories-nav">
 
         <!-- Navbar brand -->
         <span class="navbar-brand">Categories:</span>
@@ -161,9 +161,9 @@
                 <span class="sr-only">(current)</span>
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+                {% for category in categories %}
+                <a class="dropdown-item" href="#">{{category.name}}</a>
+                {% endfor %}
               </div>
             </li>
             <li class="nav-item">
@@ -190,8 +190,11 @@
       <!--/.Navbar-->
       
       <!--Section: Products v.3-->
-      
-      
+      <div class="text mb-4" style="color: #929FBA">
+        <h2>
+          New Arrived
+        </h2>
+      </div>
       <section class="text-center mb-4">
         <!--Grid row-->
         <div class="row wow fadeIn">
@@ -202,9 +205,9 @@
             <div class="card h-100">
               <!--Card image-->
               <div class="view overlay">
-              {% if p.image_link %}
-                {% if p.image_link != 'https://static.bhphoto.com/images/itemImgPlaceholder.jpg' %}
-                  <img src="{{p.image_link}}" class="card-img-top" alt="">
+              {% if p.get_image_link %}
+                {% if p.get_image_link != 'https://static.bhphoto.com/images/itemImgPlaceholder.jpg' %}
+                  <img src="{{p.get_image_link}}" class="card-img-top" alt="">
                 {% else %}
                   <img src="{% static '/img/no_image.png' %}" class="card-img-top" alt="no_image">
                 {% endif %}
@@ -221,18 +224,18 @@
               <div class="card-body text-center">
                 <!--Category & Title-->
                 <a href="{{p.get_absolute_url}}" class="grey-text">
-                  <h5>{{p.category_id}}</h5>
+                  <h5>{{p.get_category}}</h5>
                 </a>
                 <h5>
                   <strong>
-                    <a href="{{p.get_absolute_url}}" class="dark-grey-text">{{p.nickname | truncatechars:45}}
+                    <a href="{{p.get_absolute_url}}" class="dark-grey-text">{{p.title | truncatechars:45}}
                       <span class="badge badge-pill danger-color">NEW</span>
                     </a>
                   </strong>
                 </h5>
 
                 <h4 class="font-weight-bold blue-text">
-                  <strong>{{p.price}}</strong>
+                  <strong>${{p.price}}</strong>
                 </h4>
 
               </div>

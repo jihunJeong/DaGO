@@ -4,7 +4,7 @@ from django import forms
 
 
 class ContactForm(ModelForm):
-    email = forms.CharField(initial='',
+    email = forms.CharField(initial='Your name',
         error_messages={
             'required': "이메일을 입력해주세요."
         }, label="Email", max_length=20,
