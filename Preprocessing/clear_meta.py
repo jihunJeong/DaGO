@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-# meta data count : 154192
+# meta data count : 124415
 
 if __name__ == "__main__":
     mToN = {"January":"01", "February":"02", "March":"03", "April":"04", "May":"05", "June":"06",
@@ -35,6 +35,9 @@ if __name__ == "__main__":
                     select.at[i, 'brand'] = None
                 else :
                     select.at[i, 'brand'] = row['brand'].replace("&amp;", "&")
+            
+            if row['title']:
+                select.at[i, 'title'] = row['title'].replace("&amp;", "&")
 
             if row['price']:
                 if not row['price'].replace(".", "1").replace("$", "").isdigit():

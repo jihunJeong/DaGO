@@ -8,7 +8,7 @@ from .Serializers import ProductSerializer
 from rest_framework import generics, mixins
 from django.core.paginator import Paginator
 from django.shortcuts import render
-from .models import Product, Item, TestItems
+from .models import Product, Item, PreAlso, TestItems
 
 # Create your views here.
 

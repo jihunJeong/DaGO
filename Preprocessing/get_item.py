@@ -2,7 +2,7 @@ from numpy import isin
 import pandas as pd
 
 
-# meta data count : 126143
+# meta data count : 124415
 
 if __name__ == "__main__":
     data_path = "../data/"
@@ -43,13 +43,14 @@ if __name__ == "__main__":
             smd[row['category']] = row['cs_id']
     
     pre_df = pd.DataFrame()
+    also_df = pd.DataFrame()
     for name in filename:
         meta_reader = pd.read_json(data_path+name,lines=True,chunksize=1000)
 
         for idx, meta in enumerate(meta_reader):
             print(f"{idx} done")
-            select = meta.drop(columns=['also_buy','also_view']).copy()
-            
+
+            select = meta.copy()
             for i, row in select.iterrows():
                 li = []
                 for s in row['category']:
@@ -70,6 +71,7 @@ if __name__ == "__main__":
             select.drop(columns=['category', 'brand'], inplace=True)
             pre_df = pd.concat([pre_df, select])
     pre_df = pre_df.drop_duplicates(subset=['asin'])
+    pre_df = pre_df.drop_duplicates(subset=['title'])
     pre_df['cb'] = pre_df['cb'].astype('int8')
     pre_df['cm'] = pre_df['cm'].astype('int8')
     pre_df['edate'] = pd.to_datetime(pre_df['edate'].astype(str), format='%Y%m%d')
@@ -80,6 +82,10 @@ if __name__ == "__main__":
     pre_df = pre_df[pre_df['asin'] != "B01DIL84BY"]
     pre_df = pre_df[pre_df['asin'] != "B01DKAHXNI"]
     pre_df = pre_df[pre_df['asin'] != "BO1DNTWIA4"]
-    
+
+    also_df = pre_df[['asin', 'also_view', 'also_buy']]
+    pre_df = pre_df.drop(columns=['also_view', 'also_buy'])
     print(len(pre_df))
+    print(len(also_df))
     pre_df.to_csv("../data/item_2018.csv")
+    also_df.to_csv("../data/also_item.csv")

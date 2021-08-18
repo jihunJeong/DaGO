@@ -1,6 +1,6 @@
 import pandas as pd
 
-# review row : 1485031
+# review row : 1094208
 
 if __name__ == "__main__":
     data_path = "../data/"
@@ -13,4 +13,5 @@ if __name__ == "__main__":
                          "reviewerID", "asin","reviewText"]]
         pre_df = pd.concat([pre_df, select])
         pre_df.drop_duplicates(inplace=True)
+    print(len(pre_df))
     pre_df.to_csv(f"../data/clear_review_2018.csv")

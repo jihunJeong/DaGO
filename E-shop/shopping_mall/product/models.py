@@ -97,15 +97,12 @@ class Item(models.Model):
 
 
     def get_absolute_url(self):
-        print(self.pk)
         return f'/product/{self.pk}/'
 
     def get_image_link(self):
         imagelink = None
         if self.imagehighres:
             imagelink = self.imagehighres[1:-1].split(',')[0]
-            imagelink = imagelink[1:-1]
-            print(imagelink)     
         return imagelink
     
     def __str__(self):
@@ -121,6 +118,32 @@ class Item(models.Model):
 
     def get_brand(self):
         return self.brand.name
+    
+    def get_also_view(self):
+        item = Item.objects.get(pk=self.asin)
+        also_asin = PreAlso.objects.get(asin=item.asin)
+        
+        also_view = []
+        if also_asin.also_view:
+            temp = also_asin.also_view[1:-1].split(",")
+            also_view.extend(temp)
+        if also_asin.also_buy:
+            temp = also_asin.also_buy[1:-1].split(",")
+            also_view.extend(temp)
+        items = list(Item.objects.filter(asin__in=also_view))[:4]
+        return items
+
+
+class PreAlso(models.Model):
+    asin = models.ForeignKey(Item, models.DO_NOTHING, db_column='asin')
+    also_id = models.AutoField(primary_key=True)
+    also_view = models.TextField(blank=True, null=True)
+    also_buy = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'pre_also'
+
 
 # class Bucket(models.Model):
 #     bucket_id = models.IntegerField(primary_key=True)

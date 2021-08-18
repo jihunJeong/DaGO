@@ -39,7 +39,7 @@ class Brand(models.Model):
     class Meta:
         managed = False
         db_table = 'brand'
-        
+
 class Item(models.Model):
     asin = models.CharField(primary_key=True, max_length=100)
     price = models.FloatField(blank=True, null=True)
@@ -60,15 +60,12 @@ class Item(models.Model):
 
 
     def get_absolute_url(self):
-        print(self.pk)
         return f'/product/{self.pk}/'
 
     def get_image_link(self):
         imagelink = None
         if self.imagehighres:
             imagelink = self.imagehighres[1:-1].split(',')[0]
-            imagelink = imagelink[1:-1]
-            print(imagelink)     
         return imagelink
     
     def __str__(self):
