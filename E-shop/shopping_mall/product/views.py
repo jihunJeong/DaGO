@@ -8,7 +8,7 @@ from .Serializers import ProductSerializer
 from rest_framework import generics, mixins
 from django.core.paginator import Paginator
 from django.shortcuts import render
-from .models import Product, Item, TestItems
+from .models import Product, Item, PreAlso, TestItems
 
 # Create your views here.
 
@@ -63,3 +63,14 @@ class ProductDetail(DetailView):
     template_name = "product/detail.html"
     model = Item
     context_object_name = 'p'
+    paginate_by = 8
+
+    
+    def get_recommend(self):
+        paginate_by = 8
+        return Item.objects.order_by('-enroll_date')[:16]
+
+    def get_also_view(self):
+        asin = Item.objects.first()
+        print(asin.also_view)
+        print(asin.also_buy)
