@@ -66,7 +66,6 @@ class Item(models.Model):
         imagelink = None
         if self.imagehighres:
             imagelink = self.imagehighres[1:-1].split(',')[0]
-            imagelink = imagelink[1:-1]
         return imagelink
     
     def __str__(self):
@@ -74,14 +73,3 @@ class Item(models.Model):
 
     def get_category(self):
         return self.cb.name
-
-class PreAlso(models.Model):
-    asin = models.ForeignKey(Item, models.DO_NOTHING, db_column='asin')
-    also_id = models.AutoField(primary_key=True)
-    also_view = models.TextField(blank=True, null=True)
-    also_buy = models.TextField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'pre_also'
-

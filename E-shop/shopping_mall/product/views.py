@@ -70,7 +70,3 @@ class ProductDetail(DetailView):
         paginate_by = 8
         return Item.objects.order_by('-enroll_date')[:16]
 
-    def get_also_view(self):
-        asin = Item.objects.first()
-        print(asin.also_view)
-        print(asin.also_buy)
