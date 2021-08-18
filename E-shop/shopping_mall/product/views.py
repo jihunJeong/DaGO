@@ -63,10 +63,3 @@ class ProductDetail(DetailView):
     template_name = "product/detail.html"
     model = Item
     context_object_name = 'p'
-    paginate_by = 8
-
-    
-    def get_recommend(self):
-        paginate_by = 8
-        return Item.objects.order_by('-enroll_date')[:16]
-

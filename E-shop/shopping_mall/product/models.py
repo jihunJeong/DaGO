@@ -130,9 +130,7 @@ class Item(models.Model):
         if also_asin.also_buy:
             temp = also_asin.also_buy[1:-1].split(",")
             also_view.extend(temp)
-        if len(also_view) > 8:
-            also_view = also_view[:8]
-        items = list(Item.objects.filter(asin__in=also_view))
+        items = list(Item.objects.filter(asin__in=also_view))[:4]
         return items
 
 
