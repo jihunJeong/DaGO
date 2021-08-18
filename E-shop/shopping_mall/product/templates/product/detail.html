@@ -48,16 +48,30 @@
             <p>{{p.get_brand}}</p>
             <p>{{p.description | truncatechars:100}}</p>
 
-            <form class="d-flex justify-content-left">
+            <form class="d-flex justify-content-left" method="POST" action="/order/create/">
               <!-- Default input -->
+              {% csrf_token %}
               <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
               <button class="btn btn-primary btn-md my-0 p" type="submit">Add to cart
-
                 <i class="fas fa-shopping-cart ml-1"></i>
               </button>
-
             </form>
 
+            <form method="POST" action="/order/create/">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-group">
+                    {% ifequal field.name 'product' %}
+                    <input type="{{field.field.widget.input_type}}" class="form-control" id="{{field.id_for_label}}"
+                        placeholder="{{field.label}}" name="{{field.name}}" value="{{product.id}}" />
+                    {% endifequal %}
+                </div>
+                {% if field.errors %}
+                <span style="color:red">{{field.errors}}</span>
+                {% endif %}
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">구매</button>
+            </form>
           </div>
           <!--Content-->
 
