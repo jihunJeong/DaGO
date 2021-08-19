@@ -46,8 +46,17 @@
 
             <p class="lead font-weight-bold">{{p.title}}</p>
             <p>{{p.get_brand}}</p>
-            <p>{{p.description | truncatechars:100}}</p>
-
+            <p>
+              <a class="btn shadow-none border" data-toggle="collapse" href="#collapseFeature" role="button" aria-expanded="false" aria-controls="collapseFeature">
+                 Click More Feature
+              </a>
+            </p>
+            <div class="collapse" id="collapseFeature">
+              <div class="mb-3">
+                {{p.get_feature}}
+              </div>
+            </div>
+            
             <form class="d-flex justify-content-left">
               <!-- Default input -->
               <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
