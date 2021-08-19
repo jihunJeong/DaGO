@@ -5,7 +5,7 @@ from django.views.generic import FormView,ListView
 from django.db import transaction
 from .forms import OrderForm
 from product.models import Product
-from product.models import TestItems
+from product.models import Item
 from .models import Order
 from user.models import User
 from django.core.paginator import Paginator
@@ -19,15 +19,16 @@ class OrderCreate(FormView):
     def form_valid(self,form):
         with transaction.atomic():
             #product = Product.objects.get(pk=form.data.get("product"))
-            product = TestItems.objects.get(pk=form.data.get("product"))
+            #product = Item.objects.get(pk=form.data.get("product"))
+            product = Item.objects.all()
+            print(product)
             user = User.objects.get(email=self.request.session.get('user'))
             order = Order(
                 user=user,
-                product=product,
+                product=product.asin,
                 quantity=int(form.data.get('quantity'))
             )
             order.save()
-            product.stock-=int(form.data.get('quantity'))
             product.save()
         return super().form_valid(form)
 
@@ -38,7 +39,10 @@ class OrderCreate(FormView):
         #redirect하면 ProductDetail에서 OrderForm을 새로 생성하기 때문에 에러 메시지가 전달되지 않음.
         #return redirect('/product/'+ str(form.product))
 
-        product = Product.objects.get(pk=form.data.get('product'))
+        #product = Item.objects.get(pk=form.data.get('product'))
+        product = Item.objects.all()
+        print(form.data.get("asin"))
+        print(product)
         return render(self.request, 'product/detail.html', {'form': form, 'product':product})
 
 @method_decorator(login_required, name='dispatch')
