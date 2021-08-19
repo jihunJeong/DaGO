@@ -119,6 +119,9 @@ class Item(models.Model):
     def get_brand(self):
         return self.brand.name
     
+    def get_feature(self):
+        return self.feature[1:-1]
+
     def get_also_view(self):
         item = Item.objects.get(pk=self.asin)
         also_asin = PreAlso.objects.get(asin=item.asin)
@@ -133,6 +136,13 @@ class Item(models.Model):
         items = list(Item.objects.filter(asin__in=also_view))[:4]
         return items
 
+    def get_recommend(self):
+        item = Item.objects.get(pk=self.asin)
+        recommend = ContentRecommend.objects.get(asin=item.asin).recommend[1:-1].split(",")
+        print(recommend)
+        recommends = list(Item.objects.filter(asin__in=recommend))[:4]
+        return recommends
+
 
 class PreAlso(models.Model):
     asin = models.ForeignKey(Item, models.DO_NOTHING, db_column='asin')
@@ -143,6 +153,15 @@ class PreAlso(models.Model):
     class Meta:
         managed = False
         db_table = 'pre_also'
+
+class ContentRecommend(models.Model):
+    recommend_id = models.AutoField(primary_key=True)
+    asin = models.ForeignKey('Item', models.DO_NOTHING, db_column='asin')
+    recommend = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'content_recommend'
 
 
 # class Bucket(models.Model):
