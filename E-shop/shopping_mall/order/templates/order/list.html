@@ -36,10 +36,10 @@
                 <div class="row border-top border-bottom">
                     {% for order in orders %}
                     <div class="row main align-items-center">
-                        <div class="col-2"><img class="img-fluid" src="{{order.product.image_link}}"></div>
+                        <div class="col-2"><img class="img-fluid" src="{{order.product.imageLink}}"></div>
                         <div class="col">
                             <div class="row text-muted">{{order.product.categories | truncatechars:30}}</div>
-                            <div class="row">{{order.product.nickname | truncatechars:30}}</div>
+                            <div class="row">{{order.product.title | truncatechars:30}}</div>
                         </div>
                         <div class="col"> <a href="#">-</a><a href="#" class="border">{{order.quantity|intcomma}}</a><a href="#">+</a> </div>
                         <div class="col">{{order.product.price}} <span class="close right">&#10005;</span></div>
