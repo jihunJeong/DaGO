@@ -139,7 +139,6 @@ class Item(models.Model):
     def get_recommend(self):
         item = Item.objects.get(pk=self.asin)
         recommend = ContentRecommend.objects.get(asin=item.asin).recommend[1:-1].split(",")
-        print(recommend)
         recommends = list(Item.objects.filter(asin__in=recommend))[:4]
         return recommends
 
@@ -163,6 +162,15 @@ class ContentRecommend(models.Model):
         managed = False
         db_table = 'content_recommend'
 
+class Orders(models.Model):
+    user_id = models.IntegerField(blank=True, null=True)
+    asin = models.ForeignKey(Item, models.DO_NOTHING, db_column='asin')
+    quantity = models.IntegerField(blank=True, null=True)
+    reg_date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'orders'
 
 # class Bucket(models.Model):
 #     bucket_id = models.IntegerField(primary_key=True)
