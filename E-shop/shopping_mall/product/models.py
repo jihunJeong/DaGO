@@ -39,6 +39,7 @@ class TestItems(models.Model):
         return f'{self.brand_name} {self.nickname}'
 
 
+
 class CategoryBig(models.Model):
     cb_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, blank=True, null=True)
@@ -139,9 +140,37 @@ class Item(models.Model):
 
     def get_recommend(self):
         item = Item.objects.get(pk=self.asin)
+        #print(item)
         recommend = ContentRecommend.objects.get(asin=item.asin).recommend[1:-1].split(",")
+        print(recommend)
         recommends = list(Item.objects.filter(asin__in=recommend))[:4]
+        print(recommends)
         return recommends
+
+    def get_rating_count(self):
+        ratings = PreReview.objects.filter(asin=self.asin)
+        return ratings.count()
+
+    def get_rating_average(self):
+        sum = 0
+        ratings = PreReview.objects.filter(asin=self.asin)
+        for i in ratings:
+            sum += i.overall
+        avg = sum / ratings.count()
+
+        return avg
+
+class PreReview(models.Model):
+    review_id = models.AutoField(primary_key=True)
+    overall = models.IntegerField()
+    reviewtime = models.CharField(db_column='reviewTime', max_length=20, blank=True, null=True)  # Field name made lowercase.
+    reviewerid = models.CharField(db_column='reviewerID', max_length=50)  # Field name made lowercase.
+    asin = models.ForeignKey(Item, models.DO_NOTHING, db_column='asin')
+    reviewtext = models.TextField(db_column='reviewText', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'pre_review'
 
 
 class PreAlso(models.Model):
