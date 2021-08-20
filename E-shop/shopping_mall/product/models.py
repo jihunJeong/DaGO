@@ -110,10 +110,10 @@ class Item(models.Model):
 
     def get_category(self):
         category = self.cb.name
-        if self.cm.name != "None":
-            category += ">" + self.cm.name
-        if self.cs.name != "None":
-            category += ">" + self.cs.name
+        if self.cm.name != "None" and self.cm.name != "Extra":
+            category += " > " + self.cm.name
+        if self.cs.name != "None" and self.cs.name != "Extra":
+            category += " > " + self.cs.name
         return category
 
     def get_brand(self):
