@@ -18,9 +18,15 @@
         <li class="nav-item" role="presentation">
           <a class="nav-link waves-effect active" href="/"> HOME </a>
         </li>
+        {% if request.session.user %}
         <li class="nav-item">
           <a class="nav-link waves-effect" href="/contact/"> CONTACT </a>
         </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link waves-effect" href="/login/"> CONTACT </a>
+        </li>
+        {% endif %}
         <li class="nav-item">
           <a class="nav-link waves-effect" href="/product/"> PROUDCT </a>
         </li>
@@ -37,12 +43,12 @@
           <a class="nav-link waves-effect">
             <i class="fas fa-shopping-cart"></i>
             <span class="clearfix d-none d-sm-inline-block" onclick="location.href='/order/'"> Cart
-              <span class="badge red z-depth-1"> 1 </span>
+              <!--<span class="badge red z-depth-1"> 1 </span>-->
             </span>
           </a>
         </li>
         <li class="nav-item">
-          <a href="https://www.facebook.com/mdbootstrap" class="nav-link waves-effect" target="_self">
+          <a href="#" class="nav-link waves-effect" target="_self">
             <i class="fas fa-cog"></i>
             <span class="clearfix d-none d-sm-inline-block"> Settings </span>
           </a>

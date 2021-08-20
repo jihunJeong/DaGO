@@ -13,6 +13,7 @@ class Product(models.Model):
         return self.name
 
     class Meta:
+        managed = False
         db_table = "products"
         verbose_name="상품"
         verbose_name_plural = "상품"
@@ -110,15 +111,18 @@ class Item(models.Model):
 
     def get_category(self):
         category = self.cb.name
-        if self.cm.name != "None":
-            category += ">" + self.cm.name
-        if self.cs.name != "None":
-            category += ">" + self.cs.name
+        if self.cm.name != "None" and self.cm.name != "Extra":
+            category += " > " + self.cm.name
+        if self.cs.name != "None" and self.cs.name != "Extra":
+            category += " > " + self.cs.name
         return category
 
     def get_brand(self):
         return self.brand.name
     
+    def get_feature(self):
+        return self.feature[1:-1]
+
     def get_also_view(self):
         item = Item.objects.get(pk=self.asin)
         also_asin = PreAlso.objects.get(asin=item.asin)
@@ -133,6 +137,12 @@ class Item(models.Model):
         items = list(Item.objects.filter(asin__in=also_view))[:4]
         return items
 
+    def get_recommend(self):
+        item = Item.objects.get(pk=self.asin)
+        recommend = ContentRecommend.objects.get(asin=item.asin).recommend[1:-1].split(",")
+        recommends = list(Item.objects.filter(asin__in=recommend))[:4]
+        return recommends
+
 
 class PreAlso(models.Model):
     asin = models.ForeignKey(Item, models.DO_NOTHING, db_column='asin')
@@ -144,6 +154,24 @@ class PreAlso(models.Model):
         managed = False
         db_table = 'pre_also'
 
+class ContentRecommend(models.Model):
+    recommend_id = models.AutoField(primary_key=True)
+    asin = models.ForeignKey('Item', models.DO_NOTHING, db_column='asin')
+    recommend = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'content_recommend'
+
+class Orders(models.Model):
+    user_id = models.IntegerField(blank=True, null=True)
+    asin = models.ForeignKey(Item, models.DO_NOTHING, db_column='asin')
+    quantity = models.IntegerField(blank=True, null=True)
+    reg_date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'orders'
 
 # class Bucket(models.Model):
 #     bucket_id = models.IntegerField(primary_key=True)

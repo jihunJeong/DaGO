@@ -46,13 +46,22 @@
 
             <p class="lead font-weight-bold">{{p.title}}</p>
             <p>{{p.get_brand}}</p>
-            <p>{{p.description | truncatechars:100}}</p>
-
+            <p>
+              <a class="btn shadow-none border" data-toggle="collapse" href="#collapseFeature" role="button" aria-expanded="false" aria-controls="collapseFeature">
+                 Click More Feature
+              </a>
+            </p>
+            <div class="collapse" id="collapseFeature">
+              <div class="mb-3">
+                {{p.get_feature}}
+              </div>
+            </div>
+            
             <form method="POST" action="/order/create/" class="d-flex justify-content-left">
               <!-- Default input -->
               {% csrf_token %}
               <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
-              <button class="btn btn-primary btn-md my-0 p" type="submit">Add to cart
+              <button class="btn btn-md my-0 p" type="submit" style="background-color: #929FBA; border-color: #929FBA; color: white">Add to cart
                 <i class="fas fa-shopping-cart ml-1"></i>
               </button>
 
@@ -77,22 +86,22 @@
         <!--Grid row-->
         <div class="row wow fadeIn">
           <!--Grid column-->
-          {% for p in items %}
+          {% for i in p.get_recommend %}
           <div class="col-lg-3 col-md-6 mb-4">
             <!--Card-->
             <div class="card h-100">
               <!--Card image-->
               <div class="view overlay">
-              {% if p.get_image_link %}
-                {% if p.get_image_link != 'https://static.bhphoto.com/images/itemImgPlaceholder.jpg' %}
-                  <img src="{{p.get_image_link}}" class="card-img-top" alt="">
+              {% if i.get_image_link %}
+                {% if i.get_image_link != 'https://static.bhphoto.com/images/itemImgPlaceholder.jpg' %}
+                  <img src="{{i.get_image_link}}" class="card-img-top" alt="">
                 {% else %}
                   <img src="{% static '/img/no_image.png' %}" class="card-img-top" alt="no_image">
                 {% endif %}
               {% else %}
                 <img src="{% static '/img/no_image.png' %}" class='card-img-top' alt="no_image">
               {% endif %}
-                <a href="{{p.get_absolute_url}}">
+                <a href="{{i.get_absolute_url}}">
                   <div class="mask rgba-white-slight"></div>
                 </a>
               </div>
@@ -101,21 +110,12 @@
               <!--Card content-->
               <div class="card-body text-center">
                 <!--Category & Title-->
-                <a href="{{p.get_absolute_url}}" class="grey-text">
-                  <h5>{{p.get_category}}</h5>
-                </a>
                 <h5>
                   <strong>
-                    <a href="{{p.get_absolute_url}}" class="dark-grey-text">{{p.title | truncatechars:45}}
-                      <span class="badge badge-pill danger-color">NEW</span>
+                    <a href="{{i.get_absolute_url}}" class="dark-grey-text">{{i.title | truncatechars:20}}
                     </a>
                   </strong>
                 </h5>
-
-                <h4 class="font-weight-bold blue-text">
-                  <strong>${{p.price}}</strong>
-                </h4>
-
               </div>
               <!--Card content-->
             </div>
@@ -125,7 +125,6 @@
           <!--Grid column-->
         </div>
       </section>
-      <!--Section: Products v.3-->
 
       {% if p.get_also_view %}
       <!--Section: Products v.3-->
