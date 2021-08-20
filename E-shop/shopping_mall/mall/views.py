@@ -1,10 +1,11 @@
+from django.core import paginator
 from django.http import request
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
 from django.views.generic.base import TemplateResponseMixin
 from django.core.paginator import Paginator
 
-from .models import Item, CategoryBig
+from .models import Item, CategoryBig, CategoryMid
 # Create your views here.
 
 class MainView(ListView):
@@ -19,10 +20,23 @@ class MainView(ListView):
         context = super(MainView, self).get_context_data(**kwargs)
         context['categories'] = CategoryBig.objects.all()[1:]
         return context
+    
+def category_page(request, name):
+    category = CategoryBig.objects.get(name=name)
+    items = Item.objects.filter(cb = category.cb_id).order_by('-enroll_date')[:64]
+    paginator = Paginator(items, 8)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
 
-def CategoryView(request, cats):
-    return render(request, '')
-
+    return render(
+        request, 'mall/home.html',
+        {
+            'items' : posts,
+            'categories' : CategoryBig.objects.all()[1:],
+            'category' : category,
+            'page_obj' : posts,
+        }
+    )
 # class ContactView(TemplateView):
     # template_name = 'mall/contact.html'
     # template_name = 'contact/contact.html'
