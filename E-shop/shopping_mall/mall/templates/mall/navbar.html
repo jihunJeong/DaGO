@@ -18,9 +18,15 @@
         <li class="nav-item" role="presentation">
           <a class="nav-link waves-effect active" href="/"> HOME </a>
         </li>
+        {% if request.session.user %}
         <li class="nav-item">
           <a class="nav-link waves-effect" href="/contact/"> CONTACT </a>
         </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link waves-effect" href="/login/"> CONTACT </a>
+        </li>
+        {% endif %}
         <li class="nav-item">
           <a class="nav-link waves-effect" href="/product/"> PROUDCT </a>
         </li>

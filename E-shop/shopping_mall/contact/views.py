@@ -2,7 +2,6 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from .forms import ContactForm
 
-
 def contact_view(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
