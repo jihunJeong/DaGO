@@ -64,9 +64,13 @@
 <!--                <i class="fas fa-shopping-cart ml-1"></i>-->
 <!--              </button>-->
 <!--            </form>-->
+
             <div>
-              <a class="'btn btn-secondary" href="{% url 'cart:add_cart' p.asin %}">Add to Cart</a>
-              {{p.asin}}
+              {% if request.session.user %}
+              <a class="btn btn-md my-0 p"  style="background-color: #929FBA; border-color: #929FBA; color: white" href="{% url 'cart:add_cart' p.asin %}">Add to Cart</a>
+              {% else %}
+              <a class="btn btn-md my-0 p"  style="background-color: #929FBA; border-color: #929FBA; color: white" href="/login/">Add to Cart</a>
+              {% endif %}
             </div>
           </div>
           <!--Content-->
