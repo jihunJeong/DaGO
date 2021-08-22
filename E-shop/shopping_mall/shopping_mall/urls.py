@@ -41,5 +41,6 @@ urlpatterns = [
 
     path('contact/', contact_views.contact_view, name='contact'),
 
+    path('cart/', include('cart.urls')),
 ]
     
