@@ -56,17 +56,18 @@
                 {{p.get_feature}}
               </div>
             </div>
-            
-            <form method="POST" action="/order/create/" class="d-flex justify-content-left">
-              <!-- Default input -->
-              {% csrf_token %}
-              <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
-              <button class="btn btn-md my-0 p" type="submit" style="background-color: #929FBA; border-color: #929FBA; color: white">Add to cart
-                <i class="fas fa-shopping-cart ml-1"></i>
-              </button>
-
-            </form>
-
+<!--            <form method="POST" action="/order/create/" class="d-flex justify-content-left">-->
+<!--              &lt;!&ndash; Default input &ndash;&gt;-->
+<!--              {% csrf_token %}-->
+<!--              <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">-->
+<!--              <button class="btn btn-md my-0 p" type="submit" style="background-color: #929FBA; border-color: #929FBA; color: white">Add to cart-->
+<!--                <i class="fas fa-shopping-cart ml-1"></i>-->
+<!--              </button>-->
+<!--            </form>-->
+            <div>
+              <a class="'btn btn-secondary" href="{% url 'cart:add_cart' p.asin %}">Add to Cart</a>
+              {{p.asin}}
+            </div>
           </div>
           <!--Content-->
 

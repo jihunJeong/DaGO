@@ -22,7 +22,7 @@ class OrderForm(forms.Form):
 
         if quantity and product:
             #product = Item.objects.get(pk=product)
-            product = Item.objects.all()
+            product = Item.objects.get(asin=self.asin)
             if quantity < 0:
                 self.add_error('quantity', '0개 이하는 주문할 수 없습니다.')
         else:
