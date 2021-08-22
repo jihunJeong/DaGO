@@ -1,9 +1,11 @@
 from django.db import models
 from user.models import User
 from product.models import Item
+from user.models import User
 # Create your models here.
 class Cart(models.Model):
     cart_id = models.CharField(max_length=250, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     date_added = models.DateField(auto_now_add=True)
 
     class Meta:
@@ -11,7 +13,9 @@ class Cart(models.Model):
         ordering = ['date_added']
 
     def __str__(self):
-        return self.cart_id
+        #return self.cart_id
+        return (str(self.user) + ' ' + str(self.cart_id))
+
 
 class CartItem(models.Model):
     product = models.ForeignKey(Item, on_delete=models.CASCADE)
