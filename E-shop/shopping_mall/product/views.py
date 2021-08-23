@@ -2,13 +2,15 @@ from django.shortcuts import render
 from django.views.generic import ListView, FormView, DetailView
 from django.utils.decorators import method_decorator
 from user.decorator import login_required, admin_required
-from .forms import RegisterForm
+# from .forms import RegisterForm
 from order.forms import OrderForm
-from .Serializers import ProductSerializer
+# from .Serializers import ProductSerializer
 from rest_framework import generics, mixins
 from django.core.paginator import Paginator
 from django.shortcuts import render
-from .models import Product, Item, PreAlso, TestItems
+from .models import Item, PreAlso, ContentRecommend, Review
+from user.models import User
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
 
@@ -24,25 +26,31 @@ class ProductList(ListView):
         queryset = paginator.get_page(page)
         return queryset
 
-class ProductListAPI(generics.ListAPIView, mixins.ListModelMixin):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-    
-    #ListModelMixin을 사용하면 get을 손쉽게 구현 가능.
-    #CreateModelMixin을 사용하면 post를 손쉽게 구현 가능.
-    #RetrieveModelMixin을 사용하면 상세보기를 손쉽게 구현 가능
-    
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+def product_detail(request, pk):
+    item = Item.objects.get(pk=pk)
+    try:
+        user = User.objects.get(email=request.session.get('user'))
+        reviewes = Review.objects.filter(reviewerid=user)
+        if reviewes:
+            print("Yes")
+            recommend = ContentRecommend.objects.get(asin=item.asin).recommend[1:-1].split(",")
+            recommends = list(Item.objects.filter(asin__in=recommend))[:4]
+        else :
+            recommend = ContentRecommend.objects.get(asin=item.asin).recommend[1:-1].split(",")
+            recommends = list(Item.objects.filter(asin__in=recommend))[:4]
+    except ObjectDoesNotExist:
+        recommend = ContentRecommend.objects.get(asin=item.asin).recommend[1:-1].split(",")
+        recommends = list(Item.objects.filter(asin__in=recommend))[:4]
+        pass
 
-class ProductDetailAPI(generics.ListAPIView, mixins.RetrieveModelMixin):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-
+    return render(
+        request, 'product/detail.html', 
+        {
+            'p': item,
+            'recommends' : recommends,
+        }
+    )
+'''
 @method_decorator(admin_required, name='dispatch')
 class ProductRegister(FormView):
     template_name = "product/register.html"
@@ -58,8 +66,4 @@ class ProductRegister(FormView):
         )
         product.save()
         return super().form_valid(form)
-
-class ProductDetail(DetailView):
-    template_name = "product/detail.html"
-    model = Item
-    context_object_name = 'p'
+'''

@@ -5,7 +5,8 @@ from django.views.generic import TemplateView, ListView
 from django.views.generic.base import TemplateResponseMixin
 from django.core.paginator import Paginator
 
-from .models import Item, CategoryBig, CategoryMid
+from .models import CategoryBig, CategoryMid
+from product.models import Item
 # Create your views here.
 
 class MainView(ListView):

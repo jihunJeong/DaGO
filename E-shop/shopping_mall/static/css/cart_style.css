@@ -65,26 +65,26 @@
     padding: 0
 }
 
-.row {
+.main-body .row {
     margin: 0
 }
 
-.title b {
+.main-body .title b {
     font-size: 1.5rem
 }
 
-.main {
+.main-body .main {
     margin: 0;
     padding: 2vh 0;
     width: 100%
 }
 
-.col-2,
+.main-body .col-2,
 .col {
     padding: 0 1vh
 }
 
-a {
+.main-body a {
     padding: 0 1vh
 }
 
@@ -113,7 +113,7 @@ hr {
     padding: 2vh 0
 }
 
-select {
+.main-body select {
     border: 1px solid rgba(0, 0, 0, 0.137);
     padding: 1.5vh 1vh;
     margin-bottom: 4vh;
@@ -122,7 +122,7 @@ select {
     background-color: rgb(247, 247, 247)
 }
 
-input {
+.main-body input {
     border: 1px solid rgba(0, 0, 0, 0.137);
     padding: 1vh;
     margin-bottom: 4vh;
@@ -146,7 +146,7 @@ input:focus::-webkit-input-placeholder {
     border-radius: 0
 }
 
-.btn:focus {
+.main-body .btn:focus {
     box-shadow: none;
     outline: none;
     box-shadow: none;
@@ -156,20 +156,20 @@ input:focus::-webkit-input-placeholder {
     transition: none
 }
 
-.btn:hover {
+.main-body .btn:hover {
     color: white
 }
 
-a {
+.main-body a {
     color: black
 }
 
-a:hover {
+.main-body a:hover {
     color: black;
     text-decoration: none
 }
 
-#code {
+.main-body #code {
     background-image: linear-gradient(to left, rgba(255, 255, 255, 0.253), rgba(255, 255, 255, 0.185)), url("https://img.icons8.com/small/16/000000/long-arrow-right.png");
     background-repeat: no-repeat;
     background-position-x: 95%;

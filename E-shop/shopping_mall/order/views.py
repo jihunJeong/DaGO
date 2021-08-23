@@ -4,7 +4,6 @@ from user.decorator import login_required
 from django.views.generic import FormView,ListView
 from django.db import transaction
 from .forms import OrderForm
-from product.models import Product
 from product.models import Item
 from .models import Order
 from user.models import User
