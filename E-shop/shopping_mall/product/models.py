@@ -128,3 +128,12 @@ class Orders(models.Model):
     class Meta:
         managed = False
         db_table = 'orders'
+
+class AsinId(models.Model):
+    aid = models.IntegerField(primary_key=True)
+    asin = models.ForeignKey('Item', models.DO_NOTHING, db_column='asin', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'asin_id'
+

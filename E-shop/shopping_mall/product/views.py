@@ -1,3 +1,4 @@
+from re import I
 from django.shortcuts import render
 from django.views.generic import ListView, FormView, DetailView
 from django.utils.decorators import method_decorator
@@ -8,7 +9,7 @@ from order.forms import OrderForm
 from rest_framework import generics, mixins
 from django.core.paginator import Paginator
 from django.shortcuts import render
-from .models import Item, PreAlso, ContentRecommend, Review
+from .models import Item, PreAlso, ContentRecommend, Review, AsinId
 from user.models import User
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -32,7 +33,6 @@ def product_detail(request, pk):
         user = User.objects.get(email=request.session.get('user'))
         reviewes = Review.objects.filter(reviewerid=user)
         if reviewes:
-            print("Yes")
             recommend = ContentRecommend.objects.get(asin=item.asin).recommend[1:-1].split(",")
             recommends = list(Item.objects.filter(asin__in=recommend))[:4]
         else :
