@@ -31,6 +31,7 @@ class ProductList(ListView):
 
 def product_detail(request, pk):
     item = Item.objects.get(pk=pk)
+    recommends = []
     try:
         user = User.objects.get(email=request.session.get('user'))
         reviewes = Review.objects.filter(reviewerid=user)
@@ -38,12 +39,18 @@ def product_detail(request, pk):
             recommend = usercontent.load_content(reviewes, AsinId.objects.filter(asin=item.asin).values_list('aid')[0], user, item, num=4)
         else :
             recommend = ContentRecommend.objects.get(asin=item.asin).recommend[1:-1].split(",")
-        recommends = list(Item.objects.filter(asin__in=recommend))[:4]
     except ObjectDoesNotExist:
         recommend = ContentRecommend.objects.get(asin=item.asin).recommend[1:-1].split(",")
-        recommends = list(Item.objects.filter(asin__in=recommend))[:4]
         pass
-
+    cnt = 0
+    for r in recommend:
+        if r == item.asin:
+            continue
+        cnt += 1
+        recommends.append(Item.objects.get(asin=r))
+        if cnt == 4:
+            break
+    
     return render(
         request, 'product/detail.html', 
         {
