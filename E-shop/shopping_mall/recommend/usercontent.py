@@ -29,6 +29,7 @@ def get_profile(reviewes, aid):
 def recommend(profile, reviewes, user, item, num):
     reviewes = reviewes.values('asin')
     ids = AsinId.objects.filter(asin__in=reviewes).values_list('aid')
+    item_id = AsinId.objects.filter(asin=item.asin).values_list('aid')[0][0]
     id = []
     for i in ids:
         id.append([i[0]])
@@ -38,8 +39,8 @@ def recommend(profile, reviewes, user, item, num):
     results = {}
     non_value_results = {}
     similar_indices = cosine_similarities[0].argsort()[:-100:-1]
-    similar_items = [(cosine_similarities[0][i], AsinId.objects.filter(pk=i).values('asin')[0]['asin']) for i in similar_indices if i not in id]
-    non_value_similar_items = [AsinId.objects.filter(pk=i).values('asin') for i in similar_indices if i not in id][:num]
+    similar_items = [(cosine_similarities[0][i], AsinId.objects.filter(pk=i).values('asin')[0]['asin']) for i in similar_indices if i not in id and i != item_id]
+    non_value_similar_items = [AsinId.objects.filter(pk=i).values('asin') for i in similar_indices if i not in id and i != item_id][:num]
 
     result_df = pd.DataFrame(columns=['asin','similarity'])
     for arr in similar_items:
