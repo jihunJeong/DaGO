@@ -13,6 +13,9 @@ class CategoryBig(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return self.name
+        
 class CategoryMid(models.Model):
     cm_id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=300, blank=True, null=True)
