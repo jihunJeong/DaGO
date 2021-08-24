@@ -2,7 +2,17 @@ from django.db import models
 from user.models import User
 from product.models import Item
 from user.models import User
+
 # Create your models here.
+class MfRecommend(models.Model):
+    recommend_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, models.DO_NOTHING, blank=True, null=True)
+    recommend = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'mf_recommend'
+
 class Cart(models.Model):
     cart_id = models.CharField(max_length=250, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -16,6 +26,14 @@ class Cart(models.Model):
         #return self.cart_id
         return (str(self.user) + ' ' + str(self.cart_id))
 
+    def get_mf_recommend(self):
+        user = User.objects.get(email_id=self.user.email_id)
+        print(user)
+        recommend = MfRecommend.objects.get(user_id=user).recommend[1:-1].split(",")
+        print(recommend)
+        recommends = list(Item.objects.filter(asin__in=recommend))[:3]
+        print(recommends)
+        return recommends
 
 class CartItem(models.Model):
     product = models.ForeignKey(Item, on_delete=models.CASCADE)
