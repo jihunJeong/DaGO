@@ -49,6 +49,9 @@ def recommend(profile, reviewes, user, item, num):
     result_df.to_csv(f"./data/usercontent/{user}/{item.asin}.csv", index=False)
 
 def load_content(reviewes, aid, user, item, num):
+    if not os.path.isdir(f'./data/usercontent'):
+        os.mkdir(f'./data/usercontent')
+    
     if not os.path.isdir(f'./data/usercontent/{user.nickname}'):
         os.mkdir(f'./data/usercontent/{user.nickname}')
     
