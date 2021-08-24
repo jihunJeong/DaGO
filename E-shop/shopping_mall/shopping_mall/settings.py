@@ -159,4 +159,8 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'
 
+# 브라우저 닫으면 session 없애기
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+# update되면 session바로 반영
+SESSION_SAVE_EVERY_REQUEST = True
 
