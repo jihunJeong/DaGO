@@ -4,7 +4,6 @@ from django.views.generic import ListView, FormView, DetailView
 from django.utils.decorators import method_decorator
 from user.decorator import login_required, admin_required
 # from .forms import RegisterForm
-from order.forms import OrderForm
 # from .Serializers import ProductSerializer
 from rest_framework import generics, mixins
 from django.core.paginator import Paginator
