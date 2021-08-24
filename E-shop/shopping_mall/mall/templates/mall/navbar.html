@@ -40,17 +40,15 @@
       <!-- Right -->
       <ul class="navbar-nav nav-flex-icons">
         <li class="nav-item">
-          <a class="nav-link waves-effect">
+          {% if request.session.user %}
+          <a class="nav-link waves-effect" onclick="location.href='/cart/'">
+          {% else %}
+          <a class="nav-link waves-effect" onclick="location.href='/login/'">
+          {% endif %}
             <i class="fas fa-shopping-cart"></i>
-            {% if request.session.user %}
-            <span class="clearfix d-none d-sm-inline-block" onclick="location.href='/cart/'"> Cart
+            <span class="clearfix d-none d-sm-inline-block"> Cart
               <!--<span class="badge red z-depth-1"> 1 </span>-->
             </span>
-            {% else %}
-            <span class="clearfix d-none d-sm-inline-block" onclick="location.href='/login/'"> Cart
-              <!--<span class="badge red z-depth-1"> 1 </span>-->
-            </span>
-            {% endif %}
           </a>
         </li>
         <li class="nav-item">
