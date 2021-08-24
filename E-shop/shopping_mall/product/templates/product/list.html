@@ -63,13 +63,21 @@
                 </div>
                 <div class="card-body bg-light text-center">
                     <div class="mb-2">
-                        <h4 class="font-weight-semibold mb-2"> <a href="{{product.get_absolute_url}}" class="text-default mb-2" data-abc="true">{{product.title | truncatechars:70}}</a> </h4>
+                        <h4 class="font-weight-semibold mb-2"> <a href="{{product.get_absolute_url}}" class="blue-text" data-abc="true" style="color:black;">{{product.title | truncatechars:70}}</a> </h4>
                         <a href="{{product.get_absolute_url}}" class="text-muted" data-abc="true">{{product.get_category | truncatechars:70}}</a>
                     </div>
                     <div><h6 class="mb-0 font-weight-semibold">{{product.get_brand}}</h6></div>
                     <div><h6 class="mb-0 font-weight-semibold">${{product.price}}</h6></div>
-                    <div> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> </div>
-                    <div class="text-muted mb-3">34 reviews</div>
+                    <div>
+                        <i class="fa fa-star star"></i>
+                        <script type="text/javascript">
+                        var num = {{product.get_rating_average}};
+                        for ( var i=0; i<num-1 ; i++) {
+                        document.write("<i class=\"fa fa-star star\"></i>");
+                        }
+                        </script>
+                    </div>
+                    <div class="text-muted mb-3">{{product.get_rating_count}} reviews</div>
 <!--                    <button type="button" class="btn bg-cart"><i class="fa fa-cart-plus mr-2"></i> Add to cart</button>-->
                 </div>
             </div>
