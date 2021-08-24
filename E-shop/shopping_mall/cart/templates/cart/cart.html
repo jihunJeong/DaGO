@@ -39,7 +39,15 @@
                 <div class="row border-top border-bottom">
                     {% for cart_item in cart_items %}
                     <div class="row main align-items-center">
+                        {% if cart_item.product.get_image_link %}
+                        {% if cart_item.product.get_image_link != 'https://static.bhphoto.com/images/itemImgPlaceholder.jpg' %}
                         <a class="col-2" href="{{cart_item.product.get_absolute_url}}"><img class="img-fluid" src="{{cart_item.product.get_image_link}}"></a>
+                        {% else %}
+                        <a class="col-2" href="{{i.get_absolute_url}}"><img class="img-fluid" src="{% static '/img/no_image.png' %}"></a>
+                        {% endif %}
+                        {% else %}
+                        <a class="col-2" href="{{i.get_absolute_url}}"><img class="img-fluid" src="{% static '/img/no_image.png' %}"></a>
+                        {% endif %}
                         <div class="col">
                             <a class="row" href="{{cart_item.product.get_absolute_url}}">{{cart_item.product.title | truncatechars:30}}</a>
                         </div>
@@ -50,6 +58,32 @@
                     {% endfor %}
                     <div class="col"></div>
                 </div>
+<!--                {% if cart.get_mf_recommend %}-->
+<!--                <div class="title">-->
+<!--                    <div class="row">-->
+<!--                        <div class="col">-->
+<!--                            <h4><b>Take a Look!</b></h4>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="row border-top border-bottom">-->
+<!--                    {% for i in cart.get_mf_recommend %}-->
+<!--                    <div class="row main align-items-center">-->
+<!--                        {% if i.get_image_link %}-->
+<!--                        {% if i.get_image_link != 'https://static.bhphoto.com/images/itemImgPlaceholder.jpg' %}-->
+<!--                        <a class="col-2" href="{{i.get_absolute_url}}"><img class="img-fluid" src="{{i.get_image_link}}"></a>-->
+<!--                        {% else %}-->
+<!--                        <a class="col-2" href="{{i.get_absolute_url}}"><img class="img-fluid" src="{% static '/img/no_image.png' %}"></a>-->
+<!--                        {% endif %}-->
+<!--                        {% else %}-->
+<!--                        <a class="col-2" href="{{i.get_absolute_url}}"><img class="img-fluid" src="{% static '/img/no_image.png' %}"></a>-->
+<!--                        {% endif %}-->
+<!--                        <a class="row" href="{{cart_item.product.get_absolute_url}}">{{i | truncatechars:60}}</a>-->
+<!--                    </div>-->
+<!--                    {% endfor %}-->
+<!--                    <div class="col"></div>-->
+<!--                </div>-->
+<!--                {% endif %}-->
                 <div class="back-to-shop"><a href="#" onclick="location.href='/'">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
             </div>
             <div class="col-md-4 summary">
