@@ -49,7 +49,7 @@ def cart_detail(request, total=0, counter=0, cart_items=None):
     except ObjectDoesNotExist:
         pass
 
-    return render(request, 'cart/cart.html', dict(cart_items = cart_items, total=total, counter=counter))
+    return render(request, 'cart/cart.html', dict(cart_items = cart_items, total=total, counter=counter, cart=cart))
 
 def cart_remove(request, product_id):
     user = User.objects.get(email=request.session.get('user'))

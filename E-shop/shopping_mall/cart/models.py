@@ -28,11 +28,8 @@ class Cart(models.Model):
 
     def get_mf_recommend(self):
         user = User.objects.get(email_id=self.user.email_id)
-        print(user)
         recommend = MfRecommend.objects.get(user_id=user).recommend[1:-1].split(",")
-        print(recommend)
         recommends = list(Item.objects.filter(asin__in=recommend))[:3]
-        print(recommends)
         return recommends
 
 class CartItem(models.Model):

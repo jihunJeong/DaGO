@@ -1,7 +1,7 @@
 {% extends 'mall/base.html' %}
 {% block main_area %}
   <!-- contact section -->
-  <main class="contact_section pt-5">
+  <section class="contact_section pt-5">
     <div class="container dark-grey-text mt-1 pt-4">
       <div class="row wow fadeIn pt-5">
         <div class="col-md-6 mb-4 pb-5">
@@ -13,18 +13,6 @@
             </div>
             <form action="" method="post">
               {% csrf_token %}
-<!--              <div>-->
-<!--                <input type="text" placeholder="Full Name " />-->
-<!--              </div>-->
-<!--              <div>-->
-<!--                <input type="email" placeholder="Email" />-->
-<!--              </div>-->
-<!--              <div>-->
-<!--                <input type="text" placeholder="Phone number" />-->
-<!--              </div>-->
-<!--              <div>-->
-<!--                <input type="text" class="message-box" placeholder="Message" />-->
-<!--              </div>-->
               {{ form }}
               <div class="d-flex mt-4">
                 <button type="submit" value="Submit" style="background-color: #929FBA; border-color: #929FBA">
@@ -34,42 +22,8 @@
             </form>
           </div>
         </div>
-<!--        <div class="col-md-6">-->
-<!--          <div class="img-box">-->
-<!--            <img src="images/contact-img.jpg" alt="">-->
-<!--          </div>-->
-<!--        </div>-->
       </div>
     </div>
   </section>
   <!-- end contact section -->
 {% endblock %}
-
-<!--<form action="" method="post">-->
-<!--    <input type="hidden" name="csrfmiddlewaretoken" value="yTF5g7ceTgkwsOimKxZpuV10DG4a1TWFwQ60pneu047lPvu6kTAlNYPfYEC9G8jq">-->
-<!--    <tr>-->
-<!--        <th>-->
-<!--            <label for="id_email">Email:</label>-->
-<!--        </th>-->
-<!--        <td>-->
-<!--            <input type="email" name="email" maxlength="254" required id="id_email">-->
-<!--        </td>-->
-<!--    </tr>-->
-<!--    <tr>-->
-<!--        <th>-->
-<!--            <label for="id_subject">Subject:</label>-->
-<!--        </th>-->
-<!--        <td>-->
-<!--            <input type="text" name="subject" maxlength="255" required id="id_subject">-->
-<!--        </td>-->
-<!--    </tr>-->
-<!--    <tr>-->
-<!--        <th>-->
-<!--            <label for="id_message">Message:</label>-->
-<!--        </th>-->
-<!--        <td>-->
-<!--            <textarea name="message" cols="40" rows="10" required id="id_message"></textarea>-->
-<!--        </td>-->
-<!--    </tr>-->
-<!--    <input type="submit" value="Submit">-->
-<!--</form>-->

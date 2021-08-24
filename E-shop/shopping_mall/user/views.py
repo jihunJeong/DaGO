@@ -7,9 +7,6 @@ from .models import User
 
 
 # Create your views here.
-def index(request):
-    return render(request, "user/index.html", {'email': request.session.get('user', ' ')})
-
 def login(request):
     if request.method == 'GET':
         form = LoginForm()
