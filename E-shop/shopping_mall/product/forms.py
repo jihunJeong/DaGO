@@ -1,6 +1,6 @@
 from django import forms
-from .models import Product
-
+# from .models import Product
+'''
 class RegisterForm(forms.Form):
     name = forms.CharField(
         error_messages={
@@ -32,3 +32,4 @@ class RegisterForm(forms.Form):
 
         if not (name and price and description and stock):
             self.add_error('stock', '모든 값을 입력해야 합니다.')
+'''

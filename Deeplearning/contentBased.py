@@ -3,20 +3,23 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 
 datapath = "../data/split_item/"
-for i in range(1, 16):
+for i in range(5, 6):
     result_df = pd.DataFrame(columns=['asin', 'recommend'])
     non_value_result_df = pd.DataFrame(columns=['asin', 'recommend'])
 
     ds = pd.read_csv(datapath+f"split_item_2018_{i}.csv")
     tf = TfidfVectorizer(analyzer='word', ngram_range=(1,3), min_df=0, stop_words='english')
     tfidf_matrix = tf.fit_transform(ds['feature'])
-
+    print(tfidf_matrix.shape)
+    print(type(tfidf_matrix))
+    
     cosine_similarities = linear_kernel(tfidf_matrix, tfidf_matrix)
     print(f"{i} Done")
     
     results = {}
     non_value_results = {}
     for idx, row in ds.iterrows():
+        print(idx, row['asin'])
         similar_indices = cosine_similarities[idx].argsort()[:-100:-1]
 
         similar_items = [(cosine_similarities[idx][i], ds['asin'][i]) for i in similar_indices]
