@@ -47,7 +47,6 @@ def recommend(profile, reviewes, user, item, num):
         result_df = result_df.append({'asin':arr[1], 'similarity':arr[0]}, ignore_index=True)
 
     result_df.to_csv(f"./data/usercontent/{user}/{item.asin}.csv", index=False)
-    return non_value_similar_items
 
 def load_content(reviewes, aid, user, item, num):
     if not os.path.isdir(f'./data/usercontent/{user.nickname}'):
@@ -56,9 +55,7 @@ def load_content(reviewes, aid, user, item, num):
     if not os.path.isfile(f"./data/usercontent/{user.nickname}/{item.asin}.csv"):
         profile = get_profile(reviewes, aid)
         recommends = recommend(profile, reviewes, user.nickname, item, num=num)
-    else :
-        df = pd.read_csv(f"./data/usercontent/{user.nickname}/{item.asin}.csv")
-        recommends = df['asin'][:num]
-        print(recommends)
+    df = pd.read_csv(f"./data/usercontent/{user.nickname}/{item.asin}.csv")
+    recommends = df['asin'][:num]
 
     return recommends
