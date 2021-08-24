@@ -1,4 +1,5 @@
 from re import I
+import os
 from django.shortcuts import render
 from django.views.generic import ListView, FormView, DetailView
 from django.utils.decorators import method_decorator
@@ -12,6 +13,8 @@ from django.shortcuts import render
 from .models import Item, PreAlso, ContentRecommend, Review, AsinId
 from user.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from recommend import usercontent
+import time
 
 # Create your views here.
 
@@ -33,11 +36,10 @@ def product_detail(request, pk):
         user = User.objects.get(email=request.session.get('user'))
         reviewes = Review.objects.filter(reviewerid=user)
         if reviewes:
-            recommend = ContentRecommend.objects.get(asin=item.asin).recommend[1:-1].split(",")
-            recommends = list(Item.objects.filter(asin__in=recommend))[:4]
+            recommend = usercontent.load_content(reviewes, AsinId.objects.filter(asin=item.asin).values_list('aid')[0], user, item, num=4)
         else :
             recommend = ContentRecommend.objects.get(asin=item.asin).recommend[1:-1].split(",")
-            recommends = list(Item.objects.filter(asin__in=recommend))[:4]
+        recommends = list(Item.objects.filter(asin__in=recommend))[:4]
     except ObjectDoesNotExist:
         recommend = ContentRecommend.objects.get(asin=item.asin).recommend[1:-1].split(",")
         recommends = list(Item.objects.filter(asin__in=recommend))[:4]
