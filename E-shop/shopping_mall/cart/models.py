@@ -14,7 +14,7 @@ class MfRecommend(models.Model):
         db_table = 'mf_recommend'
 
 class Cart(models.Model):
-    cart_id = models.CharField(max_length=250, blank=True)
+    # cart_id = models.CharField(max_length=250, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date_added = models.DateField(auto_now_add=True)
 

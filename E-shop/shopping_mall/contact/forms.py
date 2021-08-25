@@ -4,11 +4,10 @@ from django import forms
 
 
 class ContactForm(ModelForm):
-    email = forms.CharField(initial='',
+    email = forms.EmailField(initial='',
         error_messages={
             'required': "이메일을 입력해주세요."
         }, label="Email", max_length=20,
-        widget=forms.TextInput
     )
 
     name = forms.CharField(
@@ -20,8 +19,8 @@ class ContactForm(ModelForm):
 
     phonenumber = forms.IntegerField(
         error_messages={
+            'required': "전화번호를 입력해주세요."
         }, label="Phone Number",
-        widget=forms.TextInput
     )
 
     message = forms.CharField(
