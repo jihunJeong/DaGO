@@ -38,6 +38,3 @@ def category_page(request, name):
             'page_obj' : posts,
         }
     )
-# class ContactView(TemplateView):
-    # template_name = 'mall/contact.html'
-    # template_name = 'contact/contact.html'

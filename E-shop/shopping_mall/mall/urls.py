@@ -10,5 +10,4 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', views.MainView.as_view()),
     path('category/<str:name>/', views.category_page)
-    #path('contact/', views.ContactView.as_view()),
 ]

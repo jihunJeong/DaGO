@@ -4,8 +4,6 @@ from django.shortcuts import render
 from django.views.generic import ListView, FormView, DetailView
 from django.utils.decorators import method_decorator
 from user.decorator import login_required, admin_required
-# from .forms import RegisterForm
-# from .Serializers import ProductSerializer
 from rest_framework import generics, mixins
 from django.core.paginator import Paginator
 from django.shortcuts import render
@@ -58,20 +56,3 @@ def product_detail(request, pk):
             'recommends' : recommends,
         }
     )
-'''
-@method_decorator(admin_required, name='dispatch')
-class ProductRegister(FormView):
-    template_name = "product/register.html"
-    form_class = RegisterForm
-    success_url = '/product/'
-
-    def form_valid(self,form):
-        product = Product(
-            name=form.data.get('name'),
-            price=form.data.get('price'),
-            description=form.data.get('description'),
-            stock = form.data.get('stock')
-        )
-        product.save()
-        return super().form_valid(form)
-'''
