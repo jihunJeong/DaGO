@@ -5,22 +5,25 @@ from .models import Cart, CartItem
 from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
-def _cart_id(request):
-    cart = request.session.session_key
-    if not cart:
-        cart = request.session.create()
-    return cart
+# def _cart_id(request):
+#     #cart = request.session.session_key
+#     user = User.objects.get(email=request.session.get('user'))
+#     cart = Cart.objects.get(user=user)
+#     if not cart:
+#         cart = request.session.create()
+#     return cart
 
 def add_cart(request, product_id):
     product = Item.objects.get(asin=product_id)
     try:
         user = User.objects.get(email=request.session.get('user'))
-        cart = Cart.objects.get(cart_id=_cart_id(request), user=user)
+        #cart = Cart.objects.get(cart_id=_cart_id(request), user=user)
+        cart = Cart.objects.get(user=user)
     except Cart.DoesNotExist:
         user = User.objects.get(email=request.session.get('user'))
         cart = Cart.objects.create(
             user = user,
-            cart_id = _cart_id(request)
+            # cart_id = _cart_id(request)
         )
         cart.save()
 
@@ -41,7 +44,8 @@ def add_cart(request, product_id):
 def cart_detail(request, total=0, counter=0, cart_items=None):
     try:
         user = User.objects.get(email=request.session.get('user'))
-        cart = Cart.objects.get(cart_id=_cart_id(request), user=user)
+        # cart = Cart.objects.get(cart_id=_cart_id(request), user=user)
+        cart = Cart.objects.get(user=user)
         cart_items = CartItem.objects.filter(cart=cart, active=True)
         for cart_item in cart_items:
             total += (cart_item.product.price * cart_item.quantity)
@@ -56,7 +60,8 @@ def cart_detail(request, total=0, counter=0, cart_items=None):
 
 def cart_remove(request, product_id):
     user = User.objects.get(email=request.session.get('user'))
-    cart = Cart.objects.get(cart_id = _cart_id(request), user=user)
+    # cart = Cart.objects.get(cart_id = _cart_id(request), user=user)
+    cart = Cart.objects.get(user=user)
     product = get_object_or_404(Item, asin=product_id)
     cart_item = CartItem.objects.get(product=product, cart=cart)
     if cart_item.quantity > 1:

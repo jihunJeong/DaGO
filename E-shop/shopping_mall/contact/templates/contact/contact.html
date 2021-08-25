@@ -13,7 +13,20 @@
             </div>
             <form action="" method="post">
               {% csrf_token %}
-              {{ form }}
+              {% for field in form %}
+              <div class="form-group">
+                {% if field.label == "Message" %}
+                <label for="{{field.id_for_label }}"></label>
+                <input type={{field.field.widget.input_type}} class="message-box" id="{{field.id_for_label}}" placeholder="{{field.label}}" name="{{field.name}}"/>
+                {% else %}
+                <label for="{{field.id_for_label }}"></label>
+                <input type={{field.field.widget.input_type}} class="form__input" id="{{field.id_for_label}}" placeholder="{{field.label}}" name="{{field.name}}"/>
+                {% endif %}
+              </div>
+              {% if field.errors %}
+                <span style="color:red">{{field.errors}}</span>
+              {% endif %}
+              {% endfor %}
               <div class="d-flex mt-4">
                 <button type="submit" value="Submit" style="background-color: #929FBA; border-color: #929FBA">
                   SEND
