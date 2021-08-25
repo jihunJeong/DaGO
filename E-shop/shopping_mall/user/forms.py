@@ -29,11 +29,11 @@ class RegisterForm(forms.Form):
         widget=forms.TextInput
     )
 
-    contact = forms.IntegerField(
+    contact = forms.CharField(
         error_messages={
             'required': "전화번호를 입력해주세요."
         }, label="Contact",
-        widget=forms.TextInput
+        widget=forms.NumberInput
     )
 
     address = forms.CharField(
