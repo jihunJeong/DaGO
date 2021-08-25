@@ -17,10 +17,11 @@ class ContactForm(ModelForm):
         widget=forms.TextInput
     )
 
-    phonenumber = forms.IntegerField(
+    phonenumber = forms.CharField(
         error_messages={
             'required': "전화번호를 입력해주세요."
         }, label="Phone Number",
+        widget=forms.NumberInput
     )
 
     message = forms.CharField(

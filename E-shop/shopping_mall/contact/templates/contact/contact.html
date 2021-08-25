@@ -16,10 +16,10 @@
               {% for field in form %}
               <div class="form-group">
                 {% if field.label == "Message" %}
-                <label for="{{field.id_for_label }}"></label>
+                <label for="{{ field.id_for_label }}"></label>
                 <input type={{field.field.widget.input_type}} class="message-box" id="{{field.id_for_label}}" placeholder="{{field.label}}" name="{{field.name}}"/>
                 {% else %}
-                <label for="{{field.id_for_label }}"></label>
+                <label for="{{ field.id_for_label }}"></label>
                 <input type={{field.field.widget.input_type}} class="form__input" id="{{field.id_for_label}}" placeholder="{{field.label}}" name="{{field.name}}"/>
                 {% endif %}
               </div>
