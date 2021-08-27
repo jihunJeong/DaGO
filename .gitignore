@@ -262,6 +262,8 @@ migrations/
 __pycache__/
 migrations
 .idea
+data/
+data/
 __pycache__
 ### VisualStudioCode ###
 .vscode/*

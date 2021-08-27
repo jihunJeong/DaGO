@@ -9,6 +9,5 @@ if __name__ == "__main__":
         print(f"{idx} done")
         select = review[review["reviewTime"].apply(lambda x: int(x.split()[2]) >= 2018)]
         pre_df = pd.concat([pre_df, select])
-
     
-    pre_df.to_csv("../data/review_2018.csv", index=False)
+    pre_df.to_json("../data/review_2018.json", orient='records', lines=True)
