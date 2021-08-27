@@ -51,9 +51,10 @@
                         <div class="col">
                             <a class="row" href="{{cart_item.product.get_absolute_url}}">{{cart_item.product.title | truncatechars:30}}</a>
                         </div>
-                        <div class="col"> <a></a><a href="#" class="border">{{cart_item.quantity|intcomma}}</a><a></a> </div>
-                        <div class="col">price : {{cart_item.product.price}} </div>
-                        <div class="col">total : {{cart_item.sub_total}} <a class="close right" href="{% url 'cart:cart_remove' cart_item.product.asin %}">&#10005;</a></div>
+                        <div class="col"> <a href="{% url 'cart:add_cart' cart_item.product.asin %}">+</a><a href="#" class="border">{{cart_item.quantity|intcomma}}</a><a href="{% url 'cart:cart_remove' cart_item.product.asin %}">-</a></div>
+<!--                        <div class="col">price : {{cart_item.product.price}} </div>-->
+                        <div class="col">total : {{cart_item.sub_total}}</div>
+                        <div class="col"><a class="close right" href="{% url 'cart:cart_delete' cart_item.product.asin %}">&#10005;</a></div>
                     </div>
                     {% endfor %}
                     <div class="col"></div>

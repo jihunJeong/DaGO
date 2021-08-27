@@ -31,8 +31,15 @@
     border-radius: .1875rem;
 }
 
-.card-img-actions {
-    position: relative
+
+.card-img-top-list {
+    width: 100%;
+    height: 17rem;
+    object-fit: contain;
+}
+
+.card-img-actions-search {
+    position: relative;
 }
 
 .card-body {
@@ -44,6 +51,21 @@
     overflow : hidden;
     text-overflow : ellipsis;
     height : 300px;
+    word-wrap : brek-word;
+    display : -webkit-box;
+    -webkit-line-clamp : 10;
+    -webkit-box-orient: vertical;
+}
+
+.card-body-search {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.25rem;
+    text-align: center;
+
+    overflow : hidden;
+    text-overflow : ellipsis;
+    height : 150px;
     word-wrap : brek-word;
     display : -webkit-box;
     -webkit-line-clamp : 10;

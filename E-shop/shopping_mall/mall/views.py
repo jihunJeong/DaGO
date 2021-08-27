@@ -7,6 +7,11 @@ from django.core.paginator import Paginator
 
 from .models import CategoryBig, CategoryMid
 from product.models import Item
+
+from .forms import PostSearchForm
+from django.db.models import Q
+from django.views.generic import FormView
+
 # Create your views here.
 
 class MainView(ListView):
@@ -41,3 +46,21 @@ def category_page(request, name):
 # class ContactView(TemplateView):
     # template_name = 'mall/contact.html'
     # template_name = 'contact/contact.html'
+
+
+class SearchFormView(FormView):
+    form_class = PostSearchForm
+    template_name = 'mall/post_search.html'
+
+
+    def form_valid(self, form):
+        searchWord = form.cleaned_data['search_word']
+        post_list = Item.objects.filter(Q(title__icontains=searchWord)).distinct()
+
+        context = {}
+        context['form'] = form
+        context['search_term'] = searchWord
+        context['object_list'] = post_list
+
+        return render(self.request, self.template_name, context)
+
