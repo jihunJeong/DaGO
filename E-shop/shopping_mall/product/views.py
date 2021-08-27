@@ -21,7 +21,7 @@ class ProductList(ListView):
     context_object_name = "products"
 
     def get_queryset(self):
-        product_all = Item.objects.all()
+        product_all = Item.objects.all().order_by('-enroll_date')
         page = int(self.request.GET.get('p',1))
         paginator = Paginator(product_all, 9)
         queryset = paginator.get_page(page)

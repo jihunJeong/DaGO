@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from user.views import logout, RegisterView,LoginView
 from contact import views as contact_views
-
+from mall.views import SearchFormView
 from mall.views import MainView
 
 
@@ -30,5 +30,6 @@ urlpatterns = [
     path('login/', LoginView.as_view()),
     path('contact/', contact_views.contact_view, name='contact'),
     path('cart/', include('cart.urls')),
+    path('search/', SearchFormView.as_view(), name='search'),
 ]
     

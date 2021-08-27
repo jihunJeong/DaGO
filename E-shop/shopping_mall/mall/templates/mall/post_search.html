@@ -1,0 +1,81 @@
+{% extends "mall/base.html" %}
+{% load humanize %}
+{% block main_area %}
+{% load static %}
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="author" content="Graduate">
+	<link rel="stylesheet" href="{% static 'css/list_style.css' %}" />
+	<title>DAGO Mall</title>
+</head>
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        {{error}}
+    </div>
+</div>
+<div class="container">
+    <br>
+    <br>
+    <form action="." method="post">
+        {% csrf_token %}
+        {{ form.as_table }}
+        <input type="submit" value="Submit" class="btn btn-md my-0 p"  style="background-color: #929FBA; border-color: #929FBA; color: white">
+    </form>
+    <div class="row main-body">
+        {% if object_list %}
+        {% for product in object_list %}
+        <div class="col-md-4 mt-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-img-actions-search">
+                        <div class="view overlay">
+                            {% if product.get_image_link %}
+                            {% if product.get_image_link != 'https://static.bhphoto.com/images/itemImgPlaceholder.jpg' %}
+                            <img src="{{product.get_image_link}}" class="card-img-top" width="94" height="275" alt="">
+                            {% else %}
+                            <img src="{% static '/img/no_image.png' %}" class="card-img-top" height="275" alt="no_image">
+                            {% endif %}
+                            {% else %}
+                            <img src="{% static '/img/no_image.png' %}" class='card-img-top' height="275" alt="no_image">
+                            {% endif %}
+                            <a href="{{product.get_absolute_url}}">
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body-search bg-light text-center">
+                    <div class="mb-2">
+                        <h4 class="font-weight-semibold mb-2"> <a href="{{product.get_absolute_url}}" class="blue-text" data-abc="true" style="color:black;">{{product.title | truncatechars:70}}</a> </h4>
+                    </div>
+                    <div><h6 class="mb-0 font-weight-semibold">${{product.price}}</h6></div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% elif search_term %}<!-- 검색란이 공란인지 확인-->
+        <b><i>Search Word({{ search_term }}) Not Found</i></b>
+        {% endif %}
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+
+
+
+
+
+</div>
+{% endblock %}
+
+
+
+
+
+

@@ -2,7 +2,7 @@ from django.db import models
 from user.models import User
 from product.models import Item
 from user.models import User
-
+import random
 # Create your models here.
 class MfRecommend(models.Model):
     recommend_id = models.AutoField(primary_key=True)
@@ -29,7 +29,14 @@ class Cart(models.Model):
     def get_mf_recommend(self):
         user = User.objects.get(email_id=self.user.email_id)
         recommend = MfRecommend.objects.get(user_id=user).recommend[1:-1].split(",")
-        recommends = list(Item.objects.filter(asin__in=recommend))[:5]
+        recommends = []
+        cnt = 0
+        for r in recommend:
+            cnt += 1
+            recommends.append(Item.objects.get(asin=r))
+            if cnt == 5:
+                break
+
         return recommends
 
 class CartItem(models.Model):
@@ -43,7 +50,7 @@ class CartItem(models.Model):
         db_table = 'CartItem'
 
     def sub_total(self):
-        return self.product.price * self.quantity
+        return round(float(self.product.price) * self.quantity, 2)
 
     def __str__(self):
         return self.product

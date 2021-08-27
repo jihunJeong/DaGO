@@ -28,7 +28,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="author" content="Graduate">
 	<link rel="stylesheet" href="{% static 'css/list_style.css' %}" />
-	<title>Login Page</title>
+	<title>DAGO Mall</title>
 </head>
 <div class="row mt-5">
     <div class="col-12 text-center">
@@ -47,12 +47,12 @@
                         <div class="view overlay">
                             {% if product.get_image_link %}
                             {% if product.get_image_link != 'https://static.bhphoto.com/images/itemImgPlaceholder.jpg' %}
-                            <img src="{{product.get_image_link}}" class="card-img-top" width="94" height="275" alt="">
+                            <img src="{{product.get_image_link}}" class="card-img-top-list" alt="">
                             {% else %}
-                            <img src="{% static '/img/no_image.png' %}" class="card-img-top" height="275" alt="no_image">
+                            <img src="{% static '/img/no_image.png' %}" class="card-img-top-list" alt="no_image">
                             {% endif %}
                             {% else %}
-                            <img src="{% static '/img/no_image.png' %}" class='card-img-top' height="275" alt="no_image">
+                            <img src="{% static '/img/no_image.png' %}" class='card-img-top-list' alt="no_image">
                             {% endif %}
                             <a href="{{product.get_absolute_url}}">
                                 <div class="mask rgba-white-slight"></div>
