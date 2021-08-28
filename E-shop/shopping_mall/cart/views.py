@@ -41,7 +41,7 @@ def add_cart(request, product_id):
     #return render(request, 'product/list.html')
     return redirect('cart:cart_detail')
 
-def cart_detail(request, total=5, counter=0, cart_items=None):
+def cart_detail(request, total=0, counter=0, cart_items=None):
     try:
         user = User.objects.get(email=request.session.get('user'))
         # cart = Cart.objects.get(cart_id=_cart_id(request), user=user)
@@ -52,6 +52,9 @@ def cart_detail(request, total=5, counter=0, cart_items=None):
             counter += cart_item.quantity
     except ObjectDoesNotExist:
         pass
+
+    if counter > 0:
+        total += 5
 
     try:
         return render(request, 'cart/cart.html', dict(cart_items = cart_items, total=round(total,2), counter=counter, cart=cart))
