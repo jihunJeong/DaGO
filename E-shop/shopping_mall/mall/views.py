@@ -15,19 +15,27 @@ from django.views.generic import FormView
 # Create your views here.
 
 class MainView(ListView):
+    '''
+        Note: 처음으로 쇼핑몰 접근 시 볼 수 있는 대문페이지
+            사용자에게 모든 상품을 등록 최신 순으로 노출
+    '''
     template_name = "mall/home.html"
     paginate_by = 8
     context_object_name = 'items'
 
     def get_queryset(self) :
-        return Item.objects.order_by('-enroll_date')[:64]
+        return Item.objects.order_by('-enroll_date')[:64] # Filtering by Enroll date
 
     def get_context_data(self, **kwargs):
         context = super(MainView, self).get_context_data(**kwargs)
         context['categories'] = CategoryBig.objects.all()[1:]
         return context
-    
+
 def category_page(request, name):
+    '''
+        Note: 메인에 있는 Category NavBar에서 대분류 Category 선택시
+            Category에 해당하는 상품만 등록 최신 순으로 노출
+    '''
     category = CategoryBig.objects.get(name=name)
     items = Item.objects.filter(cb = category.cb_id).order_by('-enroll_date')[:64]
     paginator = Paginator(items, 8)
@@ -44,6 +52,9 @@ def category_page(request, name):
         }
     )
 class SearchFormView(FormView):
+    '''
+        Note: 제품을 검색할 시 Search
+    '''
     form_class = PostSearchForm
     template_name = 'mall/post_search.html'
 
