@@ -15,14 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from user.views import index, logout, RegisterView,LoginView
-from product.views import(
-    ProductList,ProductRegister, ProductDetail,
-    ProductListAPI, ProductDetailAPI
-)
-
-from order.views import OrderCreate,OrderList
+from user.views import logout, RegisterView,LoginView
+from contact import views as contact_views
+from mall.views import SearchFormView
 from mall.views import MainView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,10 +28,8 @@ urlpatterns = [
     path('logout/', logout),
     path('register/', RegisterView.as_view()),
     path('login/', LoginView.as_view()),
-    path('order/', OrderList.as_view()),
-    path('order/create/', OrderCreate.as_view()),
-
-    path('api/product', ProductListAPI.as_view()),
-    path('api/product/<int:pk>', ProductDetailAPI.as_view())
+    path('contact/', contact_views.contact_view, name='contact'),
+    path('cart/', include('cart.urls')),
+    path('search/', SearchFormView.as_view(), name='search'),
 ]
     

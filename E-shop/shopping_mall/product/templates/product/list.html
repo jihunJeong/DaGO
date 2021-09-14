@@ -28,7 +28,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="author" content="Graduate">
 	<link rel="stylesheet" href="{% static 'css/list_style.css' %}" />
-	<title>Login Page</title>
+	<title>DAGO Mall</title>
 </head>
 <div class="row mt-5">
     <div class="col-12 text-center">
@@ -36,23 +36,48 @@
     </div>
 </div>
 <div class="container">
-    <div class="row">
+    <div class="row main-body">
         {% for product in products %}
         <div class="col-md-4 mt-2">
             <div class="card">
                 <div class="card-body">
-                    <div class="card-img-actions"> <img src={{ product.image_link }} class="card-img img-fluid" width="96" height="350" alt=""> </div>
+                    <div class="card-img-actions">
+<!--                        <img src={{ product.image_link }} class="card-img img-fluid" width="96" height="350" alt="">-->
+                        <!--Card image-->
+                        <div class="view overlay">
+                            {% if product.get_image_link %}
+                            {% if product.get_image_link != 'https://static.bhphoto.com/images/itemImgPlaceholder.jpg' %}
+                            <img src="{{product.get_image_link}}" class="card-img-top-list" alt="">
+                            {% else %}
+                            <img src="{% static '/img/no_image.png' %}" class="card-img-top-list" alt="no_image">
+                            {% endif %}
+                            {% else %}
+                            <img src="{% static '/img/no_image.png' %}" class='card-img-top-list' alt="no_image">
+                            {% endif %}
+                            <a href="{{product.get_absolute_url}}">
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
+                        <!--Card image-->
+                    </div>
                 </div>
                 <div class="card-body bg-light text-center">
                     <div class="mb-2">
-                        <h4 class="font-weight-semibold mb-2"> <a href="{{product.get_absolute_url}}" class="text-default mb-2" data-abc="true">{{product.nickname | truncatechars:70}}</a> </h4>
-                        <a href="{{product.get_absolute_url}}" class="text-muted" data-abc="true">{{product.categories | truncatechars:70}}</a>
+                        <h4 class="font-weight-semibold mb-2"> <a href="{{product.get_absolute_url}}" class="blue-text" data-abc="true" style="color:black;">{{product.title | truncatechars:70}}</a> </h4>
+                        <a href="{{product.get_absolute_url}}" class="text-muted" data-abc="true">{{product.get_category | truncatechars:70}}</a>
                     </div>
-                    <div><h6 class="mb-0 font-weight-semibold">{{product.brand_name}}</h6></div>
-                    <div><h6 class="mb-0 font-weight-semibold">{{product.price}} 원</h6></div>
-                    <div><h6 class="mb-0 font-weight-semibold">{{product.stock}}</h6></div>
-                    <div> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> <i class="fa fa-star star"></i> </div>
-                    <div class="text-muted mb-3">34 reviews</div>
+                    <div><h6 class="mb-0 font-weight-semibold">{{product.get_brand}}</h6></div>
+                    <div><h6 class="mb-0 font-weight-semibold">${{product.price}}</h6></div>
+                    <div>
+                        <i class="fa fa-star star"></i>
+                        <script type="text/javascript">
+                        var num = {{product.get_rating_average}};
+                        for ( var i=0; i<num-1 ; i++) {
+                        document.write("<i class=\"fa fa-star star\"></i>");
+                        }
+                        </script>
+                    </div>
+                    <div class="text-muted mb-3">{{product.get_rating_count}} reviews</div>
 <!--                    <button type="button" class="btn bg-cart"><i class="fa fa-cart-plus mr-2"></i> Add to cart</button>-->
                 </div>
             </div>
@@ -72,12 +97,26 @@
                         <a class="page-link" href="#">이전으로</a>
                     </li>
                     {% endif %}
-                    <li class="page-item">
-                        <a class="page-link" href="#">{{products.number}}/{{products.paginator.num_pages}}</a>
+<!--                    <li class="page-item">-->
+<!--                        <a class="page-link" href="#">{{products.number}}/{{products.paginator.num_pages}}</a>-->
+<!--                    </li>-->
+                    {% for i in products.paginator.page_range %}
+                    {% if products.number == i %}
+                    <li class="page-item active" aria-current="page">
+                        <a class="page-link" href="#">
+                            <span class="sr-only">(current)</span>
+                            {{ i }}
+                        </a>
                     </li>
+                    {% elif i > products.number|add:-3 and i < products.number|add:3 %}
+                    <li class="page-item">
+                        <a class="page-link" href="?p={{ i }}">{{ i }}</a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
                     {% if products.has_next %}
                     <li class="page-item">
-                        <a class="page-link" href="?p={{products.next_page_number }}">다음으로</a>
+                        <a class="page-link" href="?p={{products.next_page_number}}">다음으로</a>
                     </li>
                     {% else %}
                     <li class="page-item disabled">

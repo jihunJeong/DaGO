@@ -39,10 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'rest_framework',
-    'order',
     'product',
     'user',
     'mall',
+    'contact',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -92,14 +93,29 @@ DATABASES = {
         }
     }
 }
-'''
-DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-}
-'''
+
+# DATABASES = {
+#     'default': {
+#         #'ENGINE': 'django.db.backends.sqlite3',
+#         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'please',
+#         'USER': 'root',
+#         'PASSWORD': '0000',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
+
+
+# DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         }
+# }
+
+
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -122,9 +138,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -142,3 +158,9 @@ STATICFILES_DIRS = [
 ]
 
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+
+# 브라우저 닫으면 session 없애기
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+# update되면 session바로 반영
+SESSION_SAVE_EVERY_REQUEST = True
+

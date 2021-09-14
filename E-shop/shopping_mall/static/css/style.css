@@ -1,7 +1,5 @@
 /* Required height of parents of the Half Page Carousel for proper displaying carousel itself */
-html,
-body,
-.view {
+html, body {
   height: 100%; }
 
 .contact_section {
@@ -92,5 +90,4 @@ body,
 /* Footer color for sake of consistency with Navbar */
 .page-footer {
   position: relative;
-  bottom:0;
   background-color: #929FBA; }

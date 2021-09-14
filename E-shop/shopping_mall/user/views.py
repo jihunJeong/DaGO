@@ -2,13 +2,21 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password
 from django.views.generic import FormView
 from .forms import RegisterForm, LoginForm
+import datetime
 from .models import User
 
 
 # Create your views here.
-def index(request):
-    return render(request, "user/index.html", {'email': request.session.get('user', ' ')})
+def login(request):
+    if request.method == 'GET':
+        form = LoginForm()
+    elif request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            request.session['user'] = form.email
+            return redirect('/')
 
+    return render(request, 'user/login.html', {'form' : form})
 
 def logout(request):
     if request.session.get('user'):
@@ -25,16 +33,26 @@ class RegisterView(FormView):
     def form_valid(self, form):
         email = form.data.get('email')
         password = form.data.get('password')
-        # nickname = form.data.get('nickname')
-        # contact = form.data.get('contact')
-        # address = form.data.get('address')
+        nickname = form.data.get('nickname')
+        contact = form.data.get('contact')
+        address = form.data.get('address')
+        # user = User(
+        #     email=email,
+        #     password=make_password(password),
+        #     nickname = nickname,
+        #     contact = contact,
+        #     address = address,
+        #     level='user'
+        # )
         user = User(
             email=email,
             password=make_password(password),
-            # nickname = nickname,
-            # contact = contact,
-            # address = address,
-            level='user'
+            nickname = nickname,
+            contact = contact,
+            address = address,
+            enroll_date = datetime.datetime.now().strftime('%Y-%m-%d'),
+            rule_id='1',
+            # credit_id='1',
         )
         user.save()
 

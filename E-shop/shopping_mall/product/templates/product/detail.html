@@ -10,9 +10,9 @@
 
         <!--Grid column-->
         <div class="col-md-6 mb-4">
-        {% if p.image_link %}
-          {% if p.image_link != 'https://static.bhphoto.com/images/itemImgPlaceholder.jpg' %}
-            <img src="{{p.image_link}}" class="img-fluid" alt="">
+        {% if p.get_image_link %}
+          {% if p.get_image_link != 'https://static.bhphoto.com/images/itemImgPlaceholder.jpg' %}
+            <img src="{{p.get_image_link}}" class="img-fluid" alt="">
           {% else %}
             <img src="{% static '/img/no_image.png' %}" class="img-fluid">
           {% endif %}
@@ -30,7 +30,7 @@
 
             <div class="mb-3">
               <a href="">
-                <span class="badge purple mr-1">{{p.categories | truncatechars:45}}</span>
+                <span class="badge purple mr-1">{{p.get_category | truncatechars:45}}</span>
               </a>
               <a href="">
                 <span class="badge blue mr-1">New</span>
@@ -41,27 +41,37 @@
             </div>
 
             <p class="lead">
-              <span class="mr-1">
-                <del>$200</del>
-              </span>
-              <span>$100</span>
+              <span>${{p.price}}</span>
             </p>
 
-            <p class="lead font-weight-bold">{{p.nickname}}</p>
-            <p>{{p.brand_name}}</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et dolor suscipit libero eos atque quia ipsa
-              sint voluptatibus!
-              Beatae sit assumenda asperiores iure at maxime atque repellendus maiores quia sapiente.</p>
+            <p class="lead font-weight-bold">{{p.title}}</p>
+            <p>{{p.get_brand}}</p>
+            <p>
+              <a class="btn shadow-none border" data-toggle="collapse" href="#collapseFeature" role="button" aria-expanded="false" aria-controls="collapseFeature">
+                 Click More Feature
+              </a>
+            </p>
+            <div class="collapse" id="collapseFeature">
+              <div class="mb-3">
+                {{p.get_feature}}
+              </div>
+            </div>
+<!--            <form method="POST" action="/order/create/" class="d-flex justify-content-left">-->
+<!--              &lt;!&ndash; Default input &ndash;&gt;-->
+<!--              {% csrf_token %}-->
+<!--              <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">-->
+<!--              <button class="btn btn-md my-0 p" type="submit" style="background-color: #929FBA; border-color: #929FBA; color: white">Add to cart-->
+<!--                <i class="fas fa-shopping-cart ml-1"></i>-->
+<!--              </button>-->
+<!--            </form>-->
 
-            <form class="d-flex justify-content-left">
-              <!-- Default input -->
-              <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
-              <button class="btn btn-primary btn-md my-0 p" type="submit">Add to cart
-                <i class="fas fa-shopping-cart ml-1"></i>
-              </button>
-
-            </form>
-
+            <div>
+              {% if request.session.user %}
+              <a class="btn btn-md my-0 p"  style="background-color: #929FBA; border-color: #929FBA; color: white" href="{% url 'cart:add_cart' p.asin %}">Add to Cart</a>
+              {% else %}
+              <a class="btn btn-md my-0 p"  style="background-color: #929FBA; border-color: #929FBA; color: white" href="/login/">Add to Cart</a>
+              {% endif %}
+            </div>
           </div>
           <!--Content-->
 
@@ -71,56 +81,108 @@
       </div>
       <!--Grid row-->
 
-      <hr>
-
-      <!--Grid row-->
-      <div class="row d-flex justify-content-center wow fadeIn">
-
-        <!--Grid column-->
-        <div class="col-md-6 text-center">
-
-          <h4 class="my-4 h4">Additional information</h4>
-
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus suscipit modi sapiente illo soluta odit
-            voluptates,
-            quibusdam officia. Neque quibusdam quas a quis porro? Molestias illo neque eum in laborum.</p>
-
-        </div>
-        <!--Grid column-->
-
+      <!--Section: Products v.3-->
+      <div class="text mb-4" style="color: #929FBA">
+        <h2>
+          Recommend
+        </h2>
       </div>
-      <!--Grid row-->
+      <section class="text-center mb-4">
+        <!--Grid row-->
+        <div class="row wow fadeIn">
+          <!--Grid column-->
+          {% for i in recommends %}
+          <div class="col-lg-3 col-md-6 mb-4">
+            <!--Card-->
+            <div class="card h-100">
+              <!--Card image-->
+              <div class="view overlay">
+              {% if i.get_image_link %}
+                {% if i.get_image_link != 'https://static.bhphoto.com/images/itemImgPlaceholder.jpg' %}
+                  <img src="{{i.get_image_link}}" class="card-img-top" alt="">
+                {% else %}
+                  <img src="{% static '/img/no_image.png' %}" class="card-img-top" alt="no_image">
+                {% endif %}
+              {% else %}
+                <img src="{% static '/img/no_image.png' %}" class='card-img-top' alt="no_image">
+              {% endif %}
+                <a href="{{i.get_absolute_url}}">
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+              <!--Card image-->
 
-      <!--Grid row-->
-      <div class="row wow fadeIn">
-
-        <!--Grid column-->
-        <div class="col-lg-4 col-md-12 mb-4">
-
-          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/11.jpg" class="img-fluid" alt="">
-
+              <!--Card content-->
+              <div class="card-body text-center">
+                <!--Category & Title-->
+                <h5>
+                  <strong>
+                    <a href="{{i.get_absolute_url}}" class="dark-grey-text">{{i.title | truncatechars:20}}
+                    </a>
+                  </strong>
+                </h5>
+              </div>
+              <!--Card content-->
+            </div>
+            <!--Card-->
+          </div>
+          {% endfor %}
+          <!--Grid column-->
         </div>
-        <!--Grid column-->
+      </section>
 
-        <!--Grid column-->
-        <div class="col-lg-4 col-md-6 mb-4">
-
-          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/12.jpg" class="img-fluid" alt="">
-
-        </div>
-        <!--Grid column-->
-
-        <!--Grid column-->
-        <div class="col-lg-4 col-md-6 mb-4">
-
-          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/13.jpg" class="img-fluid" alt="">
-
-        </div>
-        <!--Grid column-->
-
+      {% if p.get_also_view %}
+      <!--Section: Products v.3-->
+      <div class="text mb-4" style="color: #929FBA">
+        <h2>
+          Also View
+        </h2>
       </div>
-      <!--Grid row-->
+      <section class="text-center mb-4">
+        <!--Grid row-->
+        <div class="row wow fadeIn">
+          <!--Grid column-->
+          {% for i in p.get_also_view %}
+          <div class="col-lg-3 col-md-6 mb-4">
+            <!--Card-->
+            <div class="card h-100">
+              <!--Card image-->
+              <div class="view overlay">
+              {% if i.get_image_link %}
+                {% if i.get_image_link != 'https://static.bhphoto.com/images/itemImgPlaceholder.jpg' %}
+                  <img src="{{i.get_image_link}}" class="card-img-top" alt="">
+                {% else %}
+                  <img src="{% static '/img/no_image.png' %}" class="card-img-top" alt="no_image">
+                {% endif %}
+              {% else %}
+                <img src="{% static '/img/no_image.png' %}" class='card-img-top' alt="no_image">
+              {% endif %}
+                <a href="{{i.get_absolute_url}}">
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+              <!--Card image-->
 
+              <!--Card content-->
+              <div class="card-body text-center">
+                <!--Category & Title-->
+                <h5>
+                  <strong>
+                    <a href="{{i.get_absolute_url}}" class="dark-grey-text">{{i.title | truncatechars:20}}
+                    </a>
+                  </strong>
+                </h5>
+              </div>
+              <!--Card content-->
+            </div>
+            <!--Card-->
+          </div>
+          {% endfor %}
+          <!--Grid column-->
+        </div>
+      </section>
+      {% endif %}
+      <!--Section: Products v.3-->
     </div>
   </main>
   <!--Main layout-->

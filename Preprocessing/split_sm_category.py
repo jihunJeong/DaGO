@@ -5,7 +5,7 @@ if __name__ == "__main__":
     categories = pd.read_json(data_path+"category_2018.json", lines=True, chunksize=1000)
     big = pd.read_csv(data_path+"category_big_2018.csv", names=['cb_id', 'category'])
     mid = pd.read_csv(data_path+"category_mid_2018.csv", names=['cm_id', 'category', 'cb_id'])
-    pre_df = pd.DataFrame(columns=['category', 'cm_id', 'cb_id'])
+    pre_df = pd.DataFrame(columns=['name', 'cm_id', 'cb_id'])
     
     info = dict()
     for idx, row in big.iterrows():
@@ -14,7 +14,7 @@ if __name__ == "__main__":
     midd = dict()
     for idx, row in mid.iterrows():
         midd[row['category']] = row['cm_id']
-
+    print(midd)
     for idx, category in enumerate(categories):
         print(f"{idx} done")
         for idx, row in category.iterrows():

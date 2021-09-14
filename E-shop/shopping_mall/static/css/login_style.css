@@ -40,10 +40,10 @@
 	border-top:1px solid #ccc;
 	border-right:1px solid #ccc;
 }
-form{
+.main-content form{
 	padding: 0 2em;
 }
-.form__input{
+.main-content .form__input{
 	width: 100%;
 	border:0px solid transparent;
 	border-radius: 0;
@@ -54,12 +54,12 @@ form{
 	margin:1.5em auto;
 	transition: all .5s ease;
 }
-.form__input:focus{
+.main-content .form__input:focus{
 	border-bottom-color: #929FBA;
-	box-shadow: 0 0 5px rgba(0,80,80,.4);
+	box-shadow: 0 0 5px rgba(146, 159, 186,.4);
 	border-radius: 4px;
 }
-.btn{
+.main-content .btn{
 	transition: all .5s ease;
 	width: 70%;
 	border-radius: 30px;
@@ -70,13 +70,7 @@ form{
 	margin-top: 1.5em;
 	margin-bottom: 1em;
 }
-.btn:hover, .btn:focus{
+.main-content .btn:hover, .btn:focus{
 	background-color: #929FBA;
 	color:#fff;
 }
-
-.page-footer {
-	position: relative;
-	bottom:0;
-	background-color: #929FBA; }
-  

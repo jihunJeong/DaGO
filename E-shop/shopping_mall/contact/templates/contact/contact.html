@@ -1,0 +1,42 @@
+{% extends 'mall/base.html' %}
+{% block main_area %}
+  <!-- contact section -->
+  <section class="contact_section pt-5">
+    <div class="container dark-grey-text mt-1 pt-4">
+      <div class="row wow fadeIn pt-5">
+        <div class="col-md-6 mb-4 pb-5">
+          <div class="form_container">
+            <div class="heading_container">
+              <h2>
+                Contact Us
+              </h2>
+            </div>
+            <form action="" method="post">
+              {% csrf_token %}
+              {% for field in form %}
+              <div class="form-group">
+                {% if field.label == "Message" %}
+                <label for="{{ field.id_for_label }}"></label>
+                <input type={{field.field.widget.input_type}} class="message-box" id="{{field.id_for_label}}" placeholder="{{field.label}}" name="{{field.name}}"/>
+                {% else %}
+                <label for="{{ field.id_for_label }}"></label>
+                <input type={{field.field.widget.input_type}} class="form__input" id="{{field.id_for_label}}" placeholder="{{field.label}}" name="{{field.name}}"/>
+                {% endif %}
+              </div>
+              {% if field.errors %}
+                <span style="color:red">{{field.errors}}</span>
+              {% endif %}
+              {% endfor %}
+              <div class="d-flex mt-4">
+                <button type="submit" value="Submit" style="background-color: #929FBA; border-color: #929FBA">
+                  SEND
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- end contact section -->
+{% endblock %}

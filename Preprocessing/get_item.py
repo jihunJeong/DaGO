@@ -1,7 +1,8 @@
+from numpy import isin
 import pandas as pd
 
 
-# meta data count : 154192
+# meta data count : 124415
 
 if __name__ == "__main__":
     data_path = "../data/"
@@ -13,13 +14,10 @@ if __name__ == "__main__":
     small = pd.read_csv(data_path+"category_sm_2018.csv", names=['cs_id', 'category', 'cm_id', 'cb_id'])
     brand = pd.read_csv(data_path+"brand_2018.csv", names=['bid','brand'])
 
-    mToN = {"January":"01", "February":"02", "March":"03", "April":"04", "May":"05", "June":"06",
-            "July":"07", "August":"08", "September":"09", "October":"10", "November":"11", "December":"12"}
-    
     brandd = dict()
     for idx, row in brand.iterrows():
         brandd[row['brand']] = row['bid']
-    
+
     bigd = dict()
     for idx, row in big.iterrows():
         bigd[row['category']] = row['cb_id']
@@ -45,13 +43,14 @@ if __name__ == "__main__":
             smd[row['category']] = row['cs_id']
     
     pre_df = pd.DataFrame()
+    also_df = pd.DataFrame()
     for name in filename:
         meta_reader = pd.read_json(data_path+name,lines=True,chunksize=1000)
 
         for idx, meta in enumerate(meta_reader):
             print(f"{idx} done")
-            select = meta.drop(columns=['also_buy','also_view']).copy()
-            
+
+            select = meta.copy()
             for i, row in select.iterrows():
                 li = []
                 for s in row['category']:
@@ -68,30 +67,25 @@ if __name__ == "__main__":
                     else :
                         select.at[i, 'cm'] = int(midd['Extra'][int(bigd[li[1]])])
                 
-                if not row['brand'].replace("&amp;", "&"):
-                    select.at[i, 'brand_id'] = None
-                else :
-                    select.at[i, 'brand_id'] = brandd[row['brand'].replace("&amp;", "&")]
-
-                if row['price']:
-                    select.at[i, 'price'] = row['price'].replace("$", "")
-
-                if row['date']:
-                    if not isinstance(row['date'], str) or len(row['date'].split()) != 3 or "div" in str(row['date']):
-                        select.at[i, 'edate'] = "20210101"
-                    else :
-                        m, d, year = row['date'].split()
-                        if m not in mToN.keys():
-                            select.at[i, 'edate'] = "20210101"
-                        else :
-                            select.at[i, 'edate'] = year+mToN[m]+"0"*(3-len(d))+d[:-1]
-                else :
-                    select.at[i, 'edate'] = "20210101"
-
-            select.drop(columns=['category', 'brand', 'date'], inplace=True)
+                select.at[i, 'brand_id'] = brandd[row['brand'].replace("&amp;", "&")]
+            select.drop(columns=['category', 'brand'], inplace=True)
             pre_df = pd.concat([pre_df, select])
+    pre_df = pre_df.drop_duplicates(subset=['asin'])
+    pre_df = pre_df.drop_duplicates(subset=['title'])
     pre_df['cb'] = pre_df['cb'].astype('int8')
     pre_df['cm'] = pre_df['cm'].astype('int8')
-    pre_df['edate'] = pd.to_datetime(pre_df['edate'])
+    pre_df['edate'] = pd.to_datetime(pre_df['edate'].astype(str), format='%Y%m%d')
     pre_df['asin'] = pre_df['asin'].astype(str)
+    # Delete Trash Value
+    pre_df = pre_df[pre_df['asin'] != "B01BB1PJGG"]
+    pre_df = pre_df[pre_df['asin'] != "B01AK9UDG6"]
+    pre_df = pre_df[pre_df['asin'] != "B01DIL84BY"]
+    pre_df = pre_df[pre_df['asin'] != "B01DKAHXNI"]
+    pre_df = pre_df[pre_df['asin'] != "BO1DNTWIA4"]
+
+    also_df = pre_df[['asin', 'also_view', 'also_buy']]
+    pre_df = pre_df.drop(columns=['also_view', 'also_buy'])
+    print(len(pre_df))
+    print(len(also_df))
     pre_df.to_csv("../data/item_2018.csv")
+    also_df.to_csv("../data/also_item.csv")

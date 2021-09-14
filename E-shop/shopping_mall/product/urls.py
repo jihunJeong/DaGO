@@ -9,5 +9,5 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.ProductList.as_view()),
-    path('<int:pk>/', views.ProductDetail.as_view()),
+    path('<str:pk>/', views.product_detail),
 ]

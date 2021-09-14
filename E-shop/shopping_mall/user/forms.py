@@ -12,13 +12,13 @@ class RegisterForm(forms.Form):
     password = forms.CharField(
         error_messages={
             'required': "비밀번호를 입력해주세요."
-        }, label="Password", max_length=20,
+        }, label="Password", max_length=128,
         widget=forms.PasswordInput
     )
     re_password = forms.CharField(
         error_messages={
             'required': "비밀번호를 입력해주세요."
-        }, label="Password Check", max_length=20,
+        }, label="Password Check", max_length=128,
         widget=forms.PasswordInput
     )
 
@@ -29,11 +29,11 @@ class RegisterForm(forms.Form):
         widget=forms.TextInput
     )
 
-    contact = forms.IntegerField(
+    contact = forms.CharField(
         error_messages={
             'required': "전화번호를 입력해주세요."
         }, label="Contact",
-        widget=forms.TextInput
+        widget=forms.NumberInput
     )
 
     address = forms.CharField(
@@ -59,8 +59,6 @@ class RegisterForm(forms.Form):
             if password != re_password:
                 self.add_error('re_password', '비밀번호가 일치하지 않습니다.')
 
-        # if User.objects.filter(nickname=nickname).exists():
-        #     self.add_error('nickname', '이미 존재하는 닉네임 입니다.')
 
 
 class LoginForm(forms.Form):

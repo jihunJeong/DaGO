@@ -15,6 +15,7 @@ if __name__ == "__main__":
             print(f"{idx} done")
             select = meta[["brand"]]
             pre_df = pd.concat([pre_df, select])
+            pd.DataFrame(pre_df, columns=pre_df.columns)
             pre_df.drop_duplicates(inplace=True)
     pre_df.index = np.arange(1, len(pre_df)+1)
     pre_df.to_csv("../data/brand_2018.csv")

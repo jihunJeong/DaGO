@@ -1,0 +1,124 @@
+{% extends "cart/base.html" %}
+{% load humanize %}
+{% load static %}
+{% block header %}
+	<meta name="author" content="Graduate">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+	<!-- Bootstrap core CSS -->
+	<link href="{% static '/css/bootstrap.css' %}" rel="stylesheet">
+	<!-- Material Design Bootstrap -->
+	<link href="{% static '/css/mdb.css' %}" rel="stylesheet">
+	<!-- Your custom styles (optional) -->
+	<link href="{% static '/css/style.css' %}" rel="stylesheet">
+	<link href="{% static '/css/cart_style.css' %}" rel="stylesheet">
+	<title>DAGO Mall</title>
+{% endblock %}
+
+{% block error %}
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        {{error}}
+    </div>
+</div>
+{% endblock %}
+
+{% block contents %}
+<div class="main-body">
+    <div class="card">
+        <div class="row">
+            <div class="col-md-8 cart">
+                <div class="title">
+                    <div class="row">
+                        <div class="col">
+                            <h4><b>Shopping Cart</b></h4>
+                        </div>
+                        <div class="col align-self-center text-right text-muted">{{cart_items.count}} Item(s)</div>
+                    </div>
+                </div>
+                <div class="row border-top border-bottom">
+                    {% for cart_item in cart_items %}
+                    <div class="row main align-items-center">
+                        {% if cart_item.product.get_image_link %}
+                        {% if cart_item.product.get_image_link != 'https://static.bhphoto.com/images/itemImgPlaceholder.jpg' %}
+                        <a class="col-2" href="{{cart_item.product.get_absolute_url}}"><img class="img-item" height="50px" src="{{cart_item.product.get_image_link}}"></a>
+                        {% else %}
+                        <a class="col-2" href="{{i.get_absolute_url}}"><img class="img-item" height="50" src="{% static '/img/no_image.png' %}"></a>
+                        {% endif %}
+                        {% else %}
+                        <a class="col-2" href="{{i.get_absolute_url}}"><img class="img-item" height="50" src="{% static '/img/no_image.png' %}"></a>
+                        {% endif %}
+                        <div class="col">
+                            <a class="row" href="{{cart_item.product.get_absolute_url}}">{{cart_item.product.title | truncatechars:30}}</a>
+                        </div>
+                        <div class="col"> <a href="{% url 'cart:add_cart' cart_item.product.asin %}">+</a><a href="#" class="border">{{cart_item.quantity|intcomma}}</a><a href="{% url 'cart:cart_remove' cart_item.product.asin %}">-</a></div>
+<!--                        <div class="col">price : {{cart_item.product.price}} </div>-->
+                        <div class="col">total : {{cart_item.sub_total}}</div>
+                        <div class="col"><a class="close right" href="{% url 'cart:cart_delete' cart_item.product.asin %}">&#10005;</a></div>
+                    </div>
+                    {% endfor %}
+                    <div class="col"></div>
+                </div>
+                <div class="back-to-shop"><a href="#" onclick="location.href='/'">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
+            </div>
+            <div class="col-md-4 summary">
+                <div>
+                    <h5><b>Summary</b></h5>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col" style="padding-left:0;">TOTAL ITEM(S) {{counter}}</div>
+                </div>
+                <form>
+                    <p>SHIPPING</p> <select>
+                        <option class="text-muted">Standard-Delivery- &euro;5.00</option>
+                    </select>
+                    <p>GIVE CODE</p> <input id="code" placeholder="Enter your code">
+                </form>
+                <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                    <div class="col">TOTAL PRICE</div>
+                    <div class="col text-right">{{ total }}</div>
+                </div>
+                {% if cart.get_mf_recommend %}
+                <button type="button" class="btn btn-md my-0 p"  style="background-color: #929FBA; border-color: #929FBA; color: white" data-toggle="modal" data-target="#myModal">
+                    CHECKOUT
+                </button>
+                <!-- 모달 영역 -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel">How about this?</h4>
+                                <button type="button" class="close right" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&#10005;</span></button>
+                            </div>
+                            <div class="modal-body">
+                                {% for i in cart.get_mf_recommend %}
+                                <div class="row main align-items-center">
+                                    {% if i.get_image_link %}
+                                    {% if i.get_image_link != 'https://static.bhphoto.com/images/itemImgPlaceholder.jpg' %}
+                                    <a class="col-2" href="{{i.get_absolute_url}}"><img class="img-item" src="{{i.get_image_link}}"></a>
+                                    {% else %}
+                                    <a class="col-2" href="{{i.get_absolute_url}}"><img class="img-item" src="{% static '/img/no_image.png' %}"></a>
+                                    {% endif %}
+                                    {% else %}
+                                    <a class="col-2" href="{{i.get_absolute_url}}"><img class="img-item" src="{% static '/img/no_image.png' %}"></a>
+                                    {% endif %}
+                                    <a class="row" href="{{i.get_absolute_url}}">{{i | truncatechars:50}}</a>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-md my-0 p"  style="background-color: #929FBA; border-color: #929FBA; color: white">Go to checkout</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <button class="btn btn-md my-0 p"  style="background-color: #929FBA; border-color: #929FBA; color: white">CHECKOUT</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

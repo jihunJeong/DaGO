@@ -18,34 +18,55 @@
         <li class="nav-item" role="presentation">
           <a class="nav-link waves-effect active" href="/"> HOME </a>
         </li>
+        {% if request.session.user %}
         <li class="nav-item">
           <a class="nav-link waves-effect" href="/contact/"> CONTACT </a>
         </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link waves-effect" href="/login/"> CONTACT </a>
+        </li>
+        {% endif %}
         <li class="nav-item">
           <a class="nav-link waves-effect" href="/product/"> PROUDCT </a>
         </li>
+        <form class="form-inline">
+          <div class="md-form my-0">
+            <input class="form-contorl mr-sm-2" type="text" placeholder="Search" aria-label="Search" id="search-input">
+          </div>
+        </form>
       </ul>
       
       <!-- Right -->
       <ul class="navbar-nav nav-flex-icons">
         <li class="nav-item">
-          <a class="nav-link waves-effect">
+          {% if request.session.user %}
+          <a class="nav-link waves-effect" onclick="location.href='/cart/'">
+          {% else %}
+          <a class="nav-link waves-effect" onclick="location.href='/login/'">
+          {% endif %}
             <i class="fas fa-shopping-cart"></i>
             <span class="clearfix d-none d-sm-inline-block"> Cart
-              <span class="badge red z-depth-1"> 1 </span>
+              <!--<span class="badge red z-depth-1"> 1 </span>-->
             </span>
           </a>
         </li>
         <li class="nav-item">
-          <a href="https://www.facebook.com/mdbootstrap" class="nav-link waves-effect" target="_self">
+          <a href="#" class="nav-link waves-effect" target="_self">
             <i class="fas fa-cog"></i>
             <span class="clearfix d-none d-sm-inline-block"> Settings </span>
           </a>
         </li>
         <li class="nav-item">
-          <a href="/login/" class="nav-link waves-effect" target="_self"> 
+          {% if request.session.user %}
+          <a href="/logout/" class="nav-link waves-effect" target="_self">
+          <i class="fas fa-sign-out-alt"></i>
+          <span class="clearfix d-none d-sm-inline-block">SIGN OUT</span>
+          {% else %}
+          <a href="/login/" class="nav-link waves-effect" target="_self">
           <i class="fas fa-sign-in-alt"></i>
           <span class="clearfix d-none d-sm-inline-block">SIGN IN</span>
+          {% endif %}
           </a>
         </li>
       </ul>
