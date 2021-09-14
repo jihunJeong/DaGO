@@ -1,7 +1,5 @@
-import pandas as pd
-import argparse
-import os
-from tqdm import tqdm
+from library import *
+from preprocessing_data import change_html_expression
 
 def get_review(data_dir, result_dir, year):
     '''
@@ -31,12 +29,16 @@ def get_review(data_dir, result_dir, year):
         # 필요한 Column 추출
         select = select[["overall","reviewTime",
                          "reviewerID", "asin","reviewText"]]
+        
+        for i, row in select.iterrows():
+            select.at[i] = change_html_expression(row)
 
         pre_df = pd.concat([pre_df, select])
 
     if not os.path.isdir(result_dir): # 저장 경로 존재하지 않는다면 생성
         os.mkdir(result_dir)
 
+    pre_df.index = np.arange(1, len(pre_df)+1)
     pre_df.to_json(result_dir+f"/review_{year}.json", orient='records', lines=True)
     print("Done")
     print("Get Review : {}".format(len(pre_df)))
