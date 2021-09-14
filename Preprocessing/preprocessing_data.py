@@ -8,16 +8,25 @@ def change_html_expression(row):
         Returns:
             row : html expression 변환 완료된 row
     '''
-    for column in row:
-        for idx, element in enumerate(row[column]):
-            element = element.replace("&nbsp;", " ")
-            element = element.replace("&lt;", "<")
-            element = element.replace("&gt;", ">")
-            element = element.replace("&amp;", "&")
-            element = element.replace("&quot;", '"')
-            element = element.replace("&#035;", "#")
-            element = element.replace("&#039;", "'")
-            row[column][idx] = element
+    def _change(element):
+        element = element.replace("&nbsp;", " ")
+        element = element.replace("&lt;", "<")
+        element = element.replace("&gt;", ">")
+        element = element.replace("&amp;", "&")
+        element = element.replace("&quot;", '"')
+        element = element.replace("&#035;", "#")
+        element = element.replace("&#039;", "'")
+        return element
+        
+    for idx, element in enumerate(row):
+        if isinstance(element, str):
+            element = _change(element)
+        elif isinstance(element, list):
+            li = []
+            for string in element:
+                li.append(_change(string))
+            element = li
+        row[idx] = element
     return row
 
 def change_date_format(element):
@@ -57,3 +66,17 @@ def empty2null(row):
         if not row[column]:
             row[column] = None
     return row
+
+def merge_file(data_dir, result_dir, filename):
+    '''
+        Note:
+            주어진 file name에 대한 여러 나뉜 파일 Merge
+    '''
+    file_list = os.listdir(data_dir)
+    target_list = [file for file in file_list if file.startswith(f"{filename}")]
+    pre_df = pd.DataFrame()
+    for target in target_list:
+        df = pd.read_json(data_dir+f"{target}")
+        pre_df = pd.concat([pre_df, df])
+    pre_df.index = np.arange(1, len(pre_df)+1)
+    pre_df.to_json(result_dir+f"/result_{filename}.json")

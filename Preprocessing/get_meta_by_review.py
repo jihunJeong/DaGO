@@ -25,13 +25,14 @@ def get_meta(data_dir, result_dir, review, year=2018):
             categories : list of categories the product belongs to
     '''
 
-    meta_reader = pd.read_json(data_dir+"meta_Electronics.json", lines=True, chunksize=1000)
-    review = pd.read_json(data_dir+"review_2018.json")
+    print("Processing Meta ...", flush=True)
+    meta_reader = pd.read_json(data_dir+"/meta_Electronics.json", lines=True, chunksize=1000)
+    review = pd.read_json(data_dir+f"/{review}.json")
     
     meta_df = pd.DataFrame()
     cnt = 0
-    for idx, meta in enumerate(meta_reader):
-        print(f"{idx} done")
+    print("Origin Count 786645")
+    for idx, meta in enumerate(tqdm(meta_reader, desc="Get Meta")):
         select = meta[meta["asin"].apply(lambda x: (review["asin"] == x).any())] # Review에 맞는 Meta Product 추출
         select = select.drop(columns=['fit', 'similar_item','tech1','tech2','rank','details','main_cat']).copy() # Useless Column drop
         
@@ -40,37 +41,34 @@ def get_meta(data_dir, result_dir, review, year=2018):
             select.at[i] = empty2null(row) # 빈 Data Null 처리
             select.at[i, 'edate'] = change_date_format(row['date'])
 
-            if not row['brand'].replace("&amp;", "&"):
+            if "by" in str(row['brand']): # Noise Data Preprocessing
                 select.at[i, 'brand'] = None
+    
+            if not row['price'].replace(".", "1").replace("$", "").isdigit(): #Noise Data Preprocessing
+                select.at[i, 'price'] = None
             else :
-                if "by" in str(row['brand']):
-                    select.at[i, 'brand'] = None
-                else :
-                    select.at[i, 'brand'] = row['brand'].replace("&amp;", "&")
-
-            if row['price']:
-                if not row['price'].replace(".", "1").replace("$", "").isdigit():
-                    select.at[i, 'price'] = None
-                else :
-                    select.at[i, 'price'] = row['price'].replace("$", "")
+                select.at[i, 'price'] = row['price'].replace("$", "")
         
         select.drop(columns=['date'], inplace=True)    
         pre_df = pd.concat([pre_df, select])
         if (idx+1)%40 == 0:
             pre_df.dropna(inplace=True)
             cnt += len(pre_df)
-            pre_df.to_json(f"../data/clear_meta_2018_{(idx+1)}.json", orient='records', lines=True)
+            pre_df.to_json(result_dir+f"/meta_{year}_{(idx+1)}.json", orient='records', lines=True)
             pre_df = pd.DataFrame()
     pre_df.dropna(inplace=True)
     cnt += len(pre_df)
-    print(cnt)
-    pre_df.to_json(f"../data/clear_meta_2018_last.json", orient='records', lines=True)
+    print(f"Total count : {cnt}")
+    pre_df.to_json(result_dir+f"/meta_{year}_last.json", orient='records', lines=True)
+
+    merge_file(result_dir, result_dir, f"meta_{year}") # Split 된 파일 합쳐 최종 결과
+    print("Done")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--data_dir", type=str, default="../data")
     parser.add_argument("--result_dir", type=str, default="../data")
-    parser.add_argument("--review_file", type=str, default="review_2018.json")
+    parser.add_argument("--review_file", type=str, default="review_2018")
 
     args = parser.parse_args()
     get_meta(args.data_dir, args.result_dir, args.review_file)
