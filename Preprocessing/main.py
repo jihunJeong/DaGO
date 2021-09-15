@@ -1,6 +1,8 @@
 from library import *
 from get_review_by_year import get_review
 from get_meta_by_review import get_meta
+from extract_column import save_column_data
+
 '''
     Amazon Electronics Data
     Preprocessing
@@ -21,5 +23,8 @@ if __name__ == "__main__":
     
     # Review에 해당하는 상품 저장
     args.review = f"review_{args.year}.json"
-    get_meta(args.data_dir, args.result_dir, args.review, args.year)
+    get_meta(args.result_dir, args.result_dir, args.review, args.year)
+
+    # DB Table에 필요한 파일 저장
+    save_column_data(args.result_dir, args.year)
     
