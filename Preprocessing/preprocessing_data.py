@@ -62,9 +62,9 @@ def empty2null(row):
         Note:
             Dataframe의 row가 들어왔을 때 만약 빈 문자열이라면 None Value로 치환
     '''
-    for column in row:
-        if not row[column]:
-            row[column] = None
+    for idx, element in enumerate(row):
+        if not element:
+            row[idx] = None
     return row
 
 def merge_file(data_dir, result_dir, filename):
