@@ -21,7 +21,7 @@ def get_review(data_dir, result_dir, year):
 
     print("Split Review ...", flush=True)
     review_reader = pd.read_json(data_dir+"/Electronics.json", lines=True,chunksize=1000)
-    print("Origin Count {}".format(20995))
+    print("Total iteration {}".format(20995))
     pre_df = pd.DataFrame()
     for idx, review in enumerate(tqdm(review_reader, desc="Get Review")):
         # Year 기준으로 추출
