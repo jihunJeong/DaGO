@@ -275,5 +275,7 @@ migrations/
 # Ignore all local history of files
 .history
 .ionide
-
+*.DS_Store
+*.csv
+.DS_Store
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,django,pycharm
