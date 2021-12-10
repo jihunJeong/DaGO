@@ -278,7 +278,8 @@ __pycache__
 .DS_Store
 # Local History for Visual Studio Code
 .history/
-
+.env/*
+.env
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
